@@ -57,7 +57,6 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
             });
             
             serviceApi.loadInto($item[0]);
-            console.log('x');
         },
         
         nextItem: function() {
