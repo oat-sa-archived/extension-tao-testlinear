@@ -58,7 +58,11 @@ class TestModel
      * @see taoTests_models_classes_TestModel::onTestModelSet()
      */
     public function prepareContent( core_kernel_classes_Resource $test, $items = array()) {
-        $test->editPropertyValues(new core_kernel_classes_Property(TEST_TESTCONTENT_PROP), json_encode(array()));
+        $itemUris = array();
+        foreach ($items as $item) {
+            $itemUris[] = $item->getUri();
+        }
+        $this->save($test, $itemUris);
     }
     
     /**
