@@ -12,7 +12,7 @@ use oat\tao\helpers\Template;
                         requirejs.config({waitSeconds : <?=get_data('client_timeout')?> });
                         require(['<?=get_data('client_config_url')?>'], function(){
                             require(['taoTestLinear/testrunner'], function(testRunner){
-                                testRunner.start(<?=json_encode(get_data('testId'))?>, <?=json_encode(get_data('itemServiceApi'))?>);
+                                testRunner.start(<?=json_encode(get_data('itemServiceApi'))?>);
                             });
                         });
                     }());

@@ -23,7 +23,6 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
         
         testContext: {},
         testServiceApi: null,
-        testId : null,
         currentItemApi: null,
             
         updateItem: function(serviceApi, loading) {
@@ -101,16 +100,14 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
     };
     
     return {
-        start: function(testId, itemApi) {
-            
+        start: function(itemApi) {
+        	
             var itemServiceApi = eval(itemApi);
-            // Controller.testContext = context;
             
             iframeNotifier.parent('loading');
             
             window.onServiceApiReady = function onServiceApiReady(serviceApi) {
                 Controller.testServiceApi = serviceApi;
-                Controller.testId = testId;
                 Controller.updateItem(itemServiceApi, false);
                 
                 // Bindings.
