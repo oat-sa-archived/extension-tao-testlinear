@@ -62,7 +62,7 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
         
         if (count($map) === 0) {
             $report->setType(common_report_Report::TYPE_ERROR);
-            $report->setMessage(__("A QTI Test must contain at least one QTI Item to be compiled. None found."));
+            $report->setMessage(__("A Test must contain at least one item to be compiled."));
         }
         
         if ($report->getType() === common_report_Report::TYPE_SUCCESS) {
@@ -84,7 +84,7 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
         $service = new tao_models_classes_service_ServiceCall(new core_kernel_classes_Resource(self::TESTRUNNER_SERVICE));
     
         $param = new \tao_models_classes_service_ConstantParameter(
-            // Test Compilation URI passed to the QtiTestRunner service.
+            // storageDirectory id passed to testrunner 
             new core_kernel_classes_Resource(self::TESTRUNNER_PARAMETER),
             $private->getId()
         );
