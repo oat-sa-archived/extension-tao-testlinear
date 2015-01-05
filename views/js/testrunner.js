@@ -44,7 +44,7 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
             
             // Inject API instance in item + serviceLoaded event callback.
             // only supported by QTI?
-            $(document).on('serviceloaded', function() {
+            $(document).on('serviceloaded serviceready', function() {
                 iframeNotifier.parent('unloading');
             });
             
