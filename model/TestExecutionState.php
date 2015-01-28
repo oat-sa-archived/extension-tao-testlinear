@@ -106,12 +106,23 @@ class TestExecutionState
             throw new \common_Exception('next called on last Item');
         }
     }
-    
+
+    public function hasPrevious() {
+        $itemKeys = array_keys($this->getItemData());
+        return (isset($itemKeys[$this->current - 1]));
+    }
+
     public function previous()
     {
         $itemKeys = array_keys($this->getItemData());
-        if (isset($itemKeys[$this->current -1])) {
+        if (isset($itemKeys[$this->current - 1])) {
             $this->current--;
+            if (!isset($this->itemExecutions[$this->current])) {
+                $this->itemExecutions[$this->current] = array(
+                    'itemIndex' => $itemKeys[$this->current],
+                    'callId' => $this->testExecutionId.'_'.$this->current
+                );
+            }
         } else {
             throw new \common_Exception('previous called on first Item');
         }

@@ -70,8 +70,6 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
         },
         
         doNext: function() {
-            
-        	var data = 
             $.ajax({
                 context: this,
                 url: helpers._url('next', 'TestRunner', 'taoTestLinear'),
@@ -87,8 +85,46 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                     else {
                         this.testServiceApi.finish();
                     }
+                    if(data.previous){
+                        $('#previous').removeClass('hidden');
+                    }
+                    else{
+                        $('#previous').addClass('hidden');
+                    }
                 }
             });
+
+        },
+
+        previousItem: function() {
+
+            iframeNotifier.parent('loading');
+            var that = this;
+
+            this.currentItemApi.kill(function(signal) {
+                that.doPrevious();
+                iframeNotifier.parent('unloading');
+            });
+        },
+
+        doPrevious: function() {
+                $.ajax({
+                    context: this,
+                    url: helpers._url('previous', 'TestRunner', 'taoTestLinear'),
+                    data: { serviceCallId: this.testServiceApi.getServiceCallId() },
+                    accepts: 'application/json',
+                    cache: false,
+                    type: 'POST',
+                    success: function(data, textStatus, jqXhr) {
+                        if (data.api !== null) {
+                            var itemServiceApi = eval(data.api);
+                            this.updateItem(itemServiceApi, false);
+                        }
+                        if(data.previous !== $('#previous').is(':visible')){
+                            $('#previous').toggle();
+                        }
+                    }
+                });
 
         },
         
@@ -117,6 +153,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 
                 $('#next').bind('click', function() {
                     Controller.nextItem(); 
+                });
+
+                $('#previous').bind('click', function() {
+                    Controller.previousItem();
                 });
             };
             

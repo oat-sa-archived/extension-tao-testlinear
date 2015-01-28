@@ -59,7 +59,8 @@ class TestRunner extends \tao_actions_ServiceModule {
         }
         
         $this->setData('itemServiceApi', $this->buildItemScript($execution));
-        
+        $this->setData('previous', false);
+
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('client_timeout', $this->getClientTimeout());
         
@@ -88,11 +89,36 @@ class TestRunner extends \tao_actions_ServiceModule {
         $this->returnJson(array(
             'api' => $api,
             'next' => $execution->hasNext(),
-            'previous' => false
+            'previous' => $execution->hasPrevious()
         ));
 
     }
-    
+
+    public function previous() {
+
+        $stateString = $this->getState();
+        if (is_null($stateString)) {
+            throw new \common_exception_Error('Called previous on a non existing test execution');
+        }
+
+        $execution = TestExecutionState::fromString($stateString);
+
+        if ($execution->hasPrevious()) {
+            $execution->previous();
+            $this->setState($execution->toString());
+
+            $api = $this->buildItemScript($execution);
+        } else {
+            $api = null;
+        }
+        $this->returnJson(array(
+                'api' => $api,
+                'next' => $execution->hasNext(),
+                'previous' => $execution->hasPrevious()
+            ));
+
+    }
+
     protected function buildItemScript($execution) {
         $serviceCall = $execution->getCurrentServiceCall();
         $itemCallId = $execution->getItemServiceCallId();
