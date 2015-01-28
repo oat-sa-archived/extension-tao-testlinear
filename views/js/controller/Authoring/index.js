@@ -100,6 +100,11 @@ define([
                     toSend['instance_'+index] = sequence[index];
                 }
 
+                $('[id*="config_"]').each(function(){
+                    var key = $(this).attr('id').replace('config_','');
+                    toSend[key] = $(this).find('input').prop('checked');
+                });
+
                 toSend.uri = $("input[name=uri]").val();
                 toSend.classUri = $("input[name=classUri]").val();
 

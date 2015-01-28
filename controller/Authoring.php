@@ -69,11 +69,16 @@ class Authoring extends tao_actions_CommonModule {
 		foreach(\taoTests_models_classes_TestsService::singleton()->getAllItems() as $itemUri => $itemLabel){
 			$allItems['item_'.tao_helpers_Uri::encode($itemUri)] = $itemLabel;
 		}
-		
+
+
+        $checked = $test->getOnePropertyValue(new core_kernel_classes_Property('previous')) == 'true' ? true : false;
+        $testConfig['previous'] = array('label' => __('Allow test-taker to go back in test'), 'checked' => $checked);
+
 		$this->setData('uri', $test->getUri());
     	$this->setData('allItems', json_encode($allItems));
 		$this->setData('itemSequence', $itemSequence);
-		
+		$this->setData('testConfig', $testConfig);
+
 		// data for generis tree form
 		$this->setData('relatedItems', json_encode(tao_helpers_Uri::encodeArray($itemUris)));
 
@@ -97,16 +102,21 @@ class Authoring extends tao_actions_CommonModule {
 		}
 		$saved = false;
 
-        $itemUris = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
-		foreach($this->getRequestParameters() as $key => $value) {
-		    if(preg_match("/^instance_/", $key)){
-		        $itemUris[] = tao_helpers_Uri::decode($value);
-		    }
-		}
-		
-		$model = new TestModel();
-		$saved = $model->save($test, $itemUris);
-		$this->returnJson(array('saved'	=> $saved));
-	}
+        if(!$test->editPropertyValues(new core_kernel_classes_Property('previous'), $this->getRequestParameter('previous'))){
+            $this->returnJson(array('saved'	=> $saved));
+        }
+        else{
+            $itemUris = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
+            foreach($this->getRequestParameters() as $key => $value) {
+                if(preg_match("/^instance_/", $key)){
+                    $itemUris[] = tao_helpers_Uri::decode($value);
+                }
+            }
+
+            $model = new TestModel();
+            $saved = $model->save($test, $itemUris);
+            $this->returnJson(array('saved'	=> $saved));
+        }
+    }
 
 }
