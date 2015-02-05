@@ -58,20 +58,52 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
         $this->testModel->save($this->test, array($this->item->getUri()));
         $waitingReport = new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
 
+        $serviceCall = $this->getMockBuilder('tao_models_classes_service_ServiceCall')
+            ->disableOriginalConstructor()
+            ->setMethods(array('serializeToString'))
+            ->getMock();
+        $serviceCall->expects($this->once())
+            ->method('serializeToString')
+            ->willReturn('greatString');
+
+        $waitingReport->setData($serviceCall);
+
 
         $testCompiler = $this->getMockBuilder('oat\taoTestLinear\model\TestCompiler')
             ->setConstructorArgs(array($this->test, $this->storage))
-            ->setMethods(array('subCompile'))
+            ->setMethods(array('subCompile', 'spawnPrivateDirectory'))
             ->getMock();
 
         $testCompiler->expects($this->once())
             ->method('subCompile')
             ->willReturn($waitingReport);
 
+
+        //will spawn a new directory and store the content file
+        $directoryMock = $this->getMockBuilder('tao_models_classes_service_StorageDirectory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getPath'))
+            ->getMock();
+
+        $directoryMock->expects($this->once())
+            ->method('getPath')
+            ->willReturn(dirname(__FILE__). '/../sample/compile/');
+
+
+        $testCompiler->expects($this->once())
+            ->method('spawnPrivateDirectory')
+            ->willReturn($directoryMock);
+
+
+
         $report = $testCompiler->compile();
 
-        $this->assertEquals('test', $report->getMessage(),__('Compilation should work'));
+        $this->assertEquals(__('Test Compilation'), $report->getMessage(),__('Compilation should work'));
+        $this->assertFileExists(dirname(__FILE__). '/../sample/compile/data.json', __('Compilation file not created'));
+        $compile = '{"items":{"http:\/\/myFancyDomain.com\/myGreatResourceUriForItem":"greatString"},"previous":false}';
+        $this->assertEquals($compile, file_get_contents((dirname(__FILE__). '/../sample/compile/data.json'), __('File content error')));
 
+        unlink((dirname(__FILE__). '/../sample/compile/data.json'));
 
     }
 
