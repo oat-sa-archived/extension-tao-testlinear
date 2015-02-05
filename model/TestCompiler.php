@@ -59,7 +59,8 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
                 $report->setType(common_report_Report::TYPE_ERROR);
             }
         }
-        
+        $previous = $this->getResource()->getOnePropertyValue(new \core_kernel_classes_Property('previous'));
+        $previous = $previous->literal === "true";
         if (count($map) === 0) {
             $report->setType(common_report_Report::TYPE_ERROR);
             $report->setMessage(__("A Test must contain at least one item to be compiled."));
@@ -68,7 +69,11 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
         if ($report->getType() === common_report_Report::TYPE_SUCCESS) {
             $private = $this->spawnPrivateDirectory();
             $file = $private->getPath().'data.json';
-            file_put_contents($file, json_encode($map));
+            $config = array(
+                'items'     => $map,
+                'previous'  => $previous
+            );
+            file_put_contents($file, json_encode($config));
             $report->setData($this->buildServiceCall($private));
         }
         

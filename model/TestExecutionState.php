@@ -36,16 +36,14 @@ use tao_models_classes_service_ServiceCall;
 class TestExecutionState
 {
     private $testExecutionId = null;
-    
+
     private $compilationId = null;
-    
+
     private $current = null;
-    
+
     private $itemExecutions;
-    
-    // volatile
-    private $itemDataCache = null;
-    
+
+
     static public function fromString($string)
     {
         $json = json_decode($string, true);
@@ -63,37 +61,37 @@ class TestExecutionState
         $this->compilationId = $compilationId;
         $this->current = $position;
         if (empty($route)) {
-            $itemKeys = array_keys($this->getItemData());
+            $itemKeys = array_keys(TestRunnerService::singleton()->getItemData($this->compilationId));
             $route[$position] = array(
                 'itemIndex' => reset($itemKeys),
                 'callId' => $testExecutionId.'_'.$position,
             );
         }
         $this->itemExecutions = $route;
-        
+
     }
     
     public function getCurrentServiceCall()
     {
-        $itemData = $this->getItemData();
+        $itemData = TestRunnerService::singleton()->getItemData($this->compilationId);
         $serviceCall = \tao_models_classes_service_ServiceCall::fromString($itemData[$this->itemExecutions[$this->current]['itemIndex']]);
         return $serviceCall;
     }
-    
+
     public function getItemServiceCallId()
     {
         return $this->itemExecutions[$this->current]['callId'];
     }
-    
-    
+
+
     public function hasNext() {
-        $itemKeys = array_keys($this->getItemData());
+        $itemKeys = array_keys(TestRunnerService::singleton()->getItemData($this->compilationId));
         return (isset($itemKeys[$this->current + 1]));
     }
-    
+
     public function next()
     {
-        $itemKeys = array_keys($this->getItemData());
+        $itemKeys = array_keys(TestRunnerService::singleton()->getItemData($this->compilationId));
         if (isset($itemKeys[$this->current + 1])) {
             $this->current++;
             if (!isset($this->itemExecutions[$this->current])) {
@@ -108,14 +106,14 @@ class TestExecutionState
     }
 
     public function hasPrevious() {
-        $itemKeys = array_keys($this->getItemData());
-        return (isset($itemKeys[$this->current - 1]));
+        $itemKeys = array_keys(TestRunnerService::singleton()->getItemData($this->compilationId));
+        return (isset($itemKeys[$this->current - 1]) && TestRunnerService::singleton()->getPrevious($this->compilationId));
     }
 
     public function previous()
     {
-        $itemKeys = array_keys($this->getItemData());
-        if (isset($itemKeys[$this->current - 1])) {
+        $itemKeys = array_keys(TestRunnerService::singleton()->getItemData($this->compilationId));
+        if (isset($itemKeys[$this->current - 1]) && TestRunnerService::singleton()->getPrevious($this->compilationId)) {
             $this->current--;
             if (!isset($this->itemExecutions[$this->current])) {
                 $this->itemExecutions[$this->current] = array(
@@ -127,21 +125,7 @@ class TestExecutionState
             throw new \common_Exception('previous called on first Item');
         }
     }
-    
-    
-    protected function getItemData() {
-        if (is_null($this->itemDataCache)) {
-            $filePath = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($this->compilationId)->getPath().'data.json';
-            $json = file_get_contents($filePath);
-            $items = json_decode($json, true);
-            if (!is_array($items)) {
-                throw new \common_exception_Error('Unable to load compilation data for '.$this->testExecutionId);
-            }
-            $this->itemDataCache = $items;
-        }
-        return $this->itemDataCache;
-    }
-    
+
     public function toString() {
         return json_encode(array(
             'testExecutionId' => $this->testExecutionId,

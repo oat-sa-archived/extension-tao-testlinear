@@ -137,13 +137,13 @@ class TestModel
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
         }
         //get the real directory (or the encoded items if an old test)
-        $directory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($directoryId->literal);
+        $directory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($sourceDirectoryId->literal);
 
         //an old test so create the content.json to copy
         if(!is_dir($directory->getPath())){
             $directory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
             $file = $directory->getPath().'content.json';
-            file_put_contents($file, json_encode($directoryId));
+            file_put_contents($file, json_encode($sourceDirectoryId));
         }
 
         $destDirectoryId = $destination->getOnePropertyValue($propInstanceContent);
@@ -152,15 +152,15 @@ class TestModel
             //create the destination directory
             $destDirectory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
         }
+        else{
+            //get the real directory (or the encoded items if an old test)
+            $destDirectory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($destDirectoryId->literal);
 
-        //get the real directory (or the encoded items if an old test)
-        $destDirectory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($directoryId->literal);
-
-        //an old test so create the directory
-        if(!is_dir($directory->getPath())){
-            $destDirectory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
+            //an old test so create the directory
+            if(!is_dir($destDirectory->getPath())){
+                $destDirectory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
+            }
         }
-
 
         \tao_helpers_File::copy($directory->getPath(), $destDirectory->getPath(), true);
 
@@ -193,7 +193,6 @@ class TestModel
         $propInstanceContent = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
         //get Directory ID
         $directoryId = $test->getOnePropertyValue($propInstanceContent);
-
         //null so create one
         if(is_null($directoryId)){
             $directory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
