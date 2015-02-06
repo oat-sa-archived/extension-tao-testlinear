@@ -263,13 +263,19 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->willReturn(dirname(__FILE__). '/../sample/dest/');
 
 
-
-        $storageMock->expects($this->exactly(2))
+        $storageMock->expects($this->at(0))
             ->method('getDirectoryById')
-            ->with($this->onConsecutiveCalls($directoryIdSource, $directoryIdDest))
-            ->willReturn($this->onConsecutiveCalls($directoryMockSource, $directoryMockDest));
+            ->with($directoryIdSource)
+            ->willReturn($directoryMockSource);
+
+        $storageMock->expects($this->at(1))
+            ->method('getDirectoryById')
+            ->with($directoryIdDest)
+            ->willReturn($directoryMockDest);
 
         $this->testModel->cloneContent($testMockSource, $testMockDest);
+
+        $this->assertEquals(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'), file_get_contents(dirname(__FILE__). '/../sample/dest/content.json'));
 
 
     }
