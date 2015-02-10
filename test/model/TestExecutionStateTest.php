@@ -39,7 +39,7 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
 
     private $testRunnerService = null;
 
-    public function setup(){
+    public function setUp(){
         TaoPhpUnitTestRunner::initTest();
 
         $this->testRunnerService = $this->getMockBuilder('oat\taoTestLinear\model\TestRunnerService')
@@ -53,7 +53,9 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
     }
 
     public function tearDown(){
-
+        $ref = new \ReflectionProperty('tao_models_classes_Service', 'instances');
+        $ref->setAccessible(true);
+        $ref->setValue(null, array('oat\taoTestLinear\model\TestRunnerService' => null));
     }
 
 

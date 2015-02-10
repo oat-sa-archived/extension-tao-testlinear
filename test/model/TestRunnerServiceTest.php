@@ -46,7 +46,7 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
     private $directoryMock = null;
 
 
-    public function setup(){
+    public function setUp(){
         TaoPhpUnitTestRunner::initTest();
         $this->service = TestRunnerService::singleton();
 

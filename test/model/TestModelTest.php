@@ -46,14 +46,14 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
     private $uri = "";
 
-    public function setup(){
+    public function setUp(){
         TaoPhpUnitTestRunner::initTest();
         $this->testModel = new TestModel();
         $this->uri = "MyGreatTestUri#123";
         $this->test = new \core_kernel_classes_Resource($this->uri);
     }
 
-    public function cleanup() {
+    public function tearDown() {
         $ref = new \ReflectionProperty('tao_models_classes_service_FileStorage', 'instance');
         $ref->setAccessible(true);
         $ref->setValue(null, null);
@@ -147,12 +147,6 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $this->assertFalse(file_exists(dirname(__FILE__). '/../sample/test/content.json'), __('content.json should be delete'));
         $this->assertFalse(is_dir(dirname(__FILE__). '/../sample/test'), __('directory tree should be delete'));
-
-
-        $this->cleanup();
-
-
-
     }
 
     /**
@@ -383,7 +377,6 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $this->assertEquals(true, $edit, __('Should edit the property value'));
         $this->assertEquals($itemUris, $file, __('The content file doesn\'t contain the right items'));
 
-        $this->cleanup();
     }
 
 
@@ -447,7 +440,6 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $this->assertEquals(true, $edit, __('Should edit the property value'));
         $this->assertEquals($itemUris, $file, __('The content file doesn\'t contain the right items'));
 
-        $this->cleanup();
     }
 
     public function testSaveNew() {
@@ -511,7 +503,6 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $this->assertEquals(true, $edit, __('Should edit the property value'));
         $this->assertEquals($itemUris, $file, __('The content file doesn\'t contain the right items'));
 
-        $this->cleanup();
     }
 
 

@@ -58,7 +58,7 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
      */
     private $testModel = null;
 
-    public function setup(){
+    public function setUp(){
         TaoPhpUnitTestRunner::initTest();
         $this->test = new \core_kernel_classes_Resource('http://myFancyDomain.com/myGreatResourceUriForTest');
         $this->item = new \core_kernel_classes_Resource('http://myFancyDomain.com/myGreatResourceUriForItem');
