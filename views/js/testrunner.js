@@ -48,10 +48,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 iframeNotifier.parent('unloading');
             });
             
-            var that = this;
+            var self = this;
             serviceApi.onFinish(function() {
                 iframeNotifier.parent('loading');
-                that.doNext();
+                self.doNext();
                 iframeNotifier.parent('unloading');
             });
             
@@ -61,10 +61,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
         nextItem: function() {
             
             iframeNotifier.parent('loading');
-            var that = this;
+            var self = this;
             
             this.currentItemApi.kill(function(signal) {
-            	that.doNext();
+                self.doNext();
                 iframeNotifier.parent('unloading');
             });
         },
@@ -78,12 +78,13 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 cache: false,
                 type: 'POST',
                 success: function(data, textStatus, jqXhr) {
-                	if (data.api !== null) {
-                		var itemServiceApi = eval(data.api);
-                        this.updateItem(itemServiceApi, false);
-                    }
-                    else {
+                    if (data.api === null) {
                         this.testServiceApi.finish();
+                    } else {
+                        var itemServiceApi = eval(data.api);
+                        if(itemServiceApi instanceof ServiceApi){
+                            this.updateItem(itemServiceApi, false);
+                        }
                     }
                     if(data.previous){
                         $('#previous').removeClass('hidden');
@@ -99,10 +100,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
         previousItem: function() {
 
             iframeNotifier.parent('loading');
-            var that = this;
+            var self = this;
 
             this.currentItemApi.kill(function(signal) {
-                that.doPrevious();
+                self.doPrevious();
                 iframeNotifier.parent('unloading');
             });
         },
@@ -118,10 +119,13 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                     success: function(data, textStatus, jqXhr) {
                         if (data.api !== null) {
                             var itemServiceApi = eval(data.api);
-                            this.updateItem(itemServiceApi, false);
+                            if(itemServiceApi instanceof ServiceApi){
+                                this.updateItem(itemServiceApi, false);
+                            }
                         }
-                        if(data.previous !== $('#previous').is(':visible')){
-                            $('#previous').toggle();
+                        var $previous = $('#previous');
+                        if(data.previous !== $previous.is(':visible')){
+                            $previous.toggle();
                         }
                     }
                 });
@@ -147,15 +151,15 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 Controller.updateItem(itemServiceApi, false);
                 
                 // Bindings.
-                $(window).bind('resize', function() {
+                $(window).on('resize', function() {
                     Controller.adjustFrame();
                 });
                 
-                $('#next').bind('click', function() {
+                $('#next').on('click', function() {
                     Controller.nextItem(); 
                 });
 
-                $('#previous').bind('click', function() {
+                $('#previous').on('click', function() {
                     Controller.previousItem();
                 });
             };
