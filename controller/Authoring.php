@@ -102,21 +102,18 @@ class Authoring extends tao_actions_CommonModule {
 		}
 		$saved = false;
 
-        if(!$test->editPropertyValues(new core_kernel_classes_Property('previous'), $this->getRequestParameter('previous'))){
-            $this->returnJson(array('saved'	=> $saved));
-        }
-        else{
-            $itemUris = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
-            foreach($this->getRequestParameters() as $key => $value) {
-                if(preg_match("/^instance_/", $key)){
-                    $itemUris[] = tao_helpers_Uri::decode($value);
-                }
+        $itemUris = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
+        foreach($this->getRequestParameters() as $key => $value) {
+            if(preg_match("/^instance_/", $key)){
+                $itemUris[] = tao_helpers_Uri::decode($value);
             }
-
-            $model = new TestModel();
-            $saved = $model->save($test, $itemUris);
-            $this->returnJson(array('saved'	=> $saved));
         }
+
+        $config = array('previous',$this->getRequestParameter('previous'));
+        $testContent = array('itemUris' => $itemUris, 'config' => $config);
+        $model = new TestModel();
+        $saved = $model->save($test, $testContent);
+        $this->returnJson(array('saved'	=> $saved));
     }
 
 }

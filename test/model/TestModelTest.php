@@ -51,29 +51,15 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $this->testModel = new TestModel();
         $this->uri = "MyGreatTestUri#123";
         $this->test = new \core_kernel_classes_Resource($this->uri);
-        mkdir(sys_get_temp_dir(). '/sample/');
+        if(!file_exists(sys_get_temp_dir(). '/sample/')){
+            mkdir(sys_get_temp_dir(). '/sample/');
+        }
     }
 
     public function tearDown() {
         $ref = new \ReflectionProperty('tao_models_classes_service_FileStorage', 'instance');
         $ref->setAccessible(true);
         $ref->setValue(null, null);
-        $this->rrmdir(sys_get_temp_dir(). '/sample/');
-
-
-    }
-
-    private function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    (is_dir($dir."/".$object)) ? $this->rrmdir($dir."/".$object) : unlink($dir."/".$object);
-                }
-            }
-            reset($objects);
-            rmdir($dir);
-        }
     }
 
     public function testGetAuthoringUrl() {
@@ -234,9 +220,65 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $items = $this->testModel->getItems($testMock);
 
-        $itemUris = json_decode(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'));
+        $content = json_decode(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'));
+        \common_Logger::w(print_r($content->itemUris,true));
         foreach($items as $item){
-            $this->assertContains($item->getUri(), $itemUris);
+            $this->assertContains($item->getUri(), $content->itemUris);
+        }
+
+
+    }
+
+    public function testGetConfig(){
+
+        $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getOnePropertyValue'))
+            ->getMock();
+        $propInstanceContent = new \core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+
+
+        //Get directory to get Items
+        $directoryId = "MyDirectoryId";
+        $testMock->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->with($propInstanceContent)
+            ->willReturn(new \core_kernel_classes_Literal($directoryId));
+
+
+        //will get directory and path<
+        $storageMock = $this->getMockBuilder('tao_models_classes_service_FileStorage')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getDirectoryById'))
+            ->getMock();
+
+        $ref = new \ReflectionProperty('tao_models_classes_service_FileStorage', 'instance');
+        $ref->setAccessible(true);
+        $ref->setValue(null, $storageMock);
+
+
+        $directoryMock = $this->getMockBuilder('tao_models_classes_service_StorageDirectory')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getPath'))
+            ->getMock();
+
+        $directoryMock->expects($this->exactly(2))
+            ->method('getPath')
+            ->willReturn(dirname(__FILE__). '/../sample/source/');
+
+
+
+        $storageMock->expects($this->once())
+            ->method('getDirectoryById')
+            ->with($directoryId)
+            ->willReturn($directoryMock);
+
+        $config = $this->testModel->getConfig($testMock);
+
+        $content = json_decode(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'));
+        foreach($config as $key => $value){
+            $this->assertTrue(property_exists($content->config, $key));
+            $this->assertEquals($value, $content->config->$key);
         }
 
 
@@ -295,7 +337,9 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->setMethods(array('getPath'))
             ->getMock();
 
-        mkdir(sys_get_temp_dir(). '/sample/dest/');
+        if(!file_exists(sys_get_temp_dir(). '/sample/dest/')){
+            mkdir(sys_get_temp_dir(). '/sample/dest/');
+        }
         $directoryMockDest->expects($this->exactly(2))
             ->method('getPath')
             ->willReturn(sys_get_temp_dir(). '/sample/dest/');

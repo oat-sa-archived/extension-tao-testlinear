@@ -111,16 +111,55 @@ class TestModel
             }
 
             $decoded = json_decode($json, true);
-            if (is_array($decoded)) {
+            if (isset($decoded['itemUris']) && is_array($decoded['itemUris'])) {
+                foreach ($decoded['itemUris'] as $uri) {
+                    $items[] = new core_kernel_classes_Resource($uri);
+                }
+            } else if(is_array($decoded)){
                 foreach ($decoded as $uri) {
                     $items[] = new core_kernel_classes_Resource($uri);
                 }
-            } else {
+            }
+            else{
                 \common_Logger::w('Unable to decode item Uris');
             }
         }
         
         return $items;
+    }
+
+    public function getConfig( core_kernel_classes_Resource $test) {
+        $propInstanceContent = new core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+        //get the DirectoryId
+        $directoryId = $test->getOnePropertyValue($propInstanceContent);
+        if(is_null($directoryId)){
+            throw new \common_exception_FileSystemError(__('Unknown test directory'));
+        }
+        $directory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($directoryId->literal);
+
+
+        $config = array();
+        if (!is_null($directory)) {
+            $file = $directory->getPath().'content.json';
+            //get the content of file or the encoded items if it's an old test
+            if(is_dir($directory->getPath())){
+                $json = file_get_contents($file);
+            }
+            else{
+                $json = $directoryId;
+            }
+
+            $decoded = json_decode($json, true);
+            if (isset($decoded['config']) && is_array($decoded['config'])) {
+                foreach ($decoded['config'] as $key => $value) {
+                    $config[$key] = $value;
+                }
+            } else if(!is_array($decoded)){
+                \common_Logger::w('Unable to decode item Uris');
+            }
+        }
+
+        return $config;
     }
 
     /**
@@ -206,6 +245,7 @@ class TestModel
             }
         }
         $file = $directory->getPath().'content.json';
+
         file_put_contents($file, json_encode($itemUris));
         return $test->editPropertyValues($propInstanceContent, $directory->getId());
     }

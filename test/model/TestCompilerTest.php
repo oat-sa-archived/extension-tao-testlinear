@@ -81,7 +81,9 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
 
     public function testCompile(){
         //test with items
-        $this->testModel->save($this->test, array($this->item->getUri()));
+        $config = array('previous' => true);
+        $items = array($this->item->getUri());
+        $this->testModel->save($this->test, array('itemUris' => $items, 'config' => $config));
         $waitingReport = new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
 
         $serviceCall = $this->getMockBuilder('tao_models_classes_service_ServiceCall')
@@ -111,7 +113,9 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
             ->setMethods(array('getPath'))
             ->getMock();
 
-        mkdir(sys_get_temp_dir() . '/sample/compile/', 0777, true);
+        if(!file_exists(sys_get_temp_dir() . '/sample/compile/')){
+            mkdir(sys_get_temp_dir() . '/sample/compile/', 0777, true);
+        }
         $directoryMock->expects($this->once())
             ->method('getPath')
             ->willReturn(sys_get_temp_dir() . '/sample/compile/');
@@ -127,27 +131,9 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
 
         $this->assertEquals(__('Test Compilation'), $report->getMessage(),__('Compilation should work'));
         $this->assertFileExists(sys_get_temp_dir(). '/sample/compile/data.json', __('Compilation file not created'));
-        $compile = '{"items":{"http:\/\/myFancyDomain.com\/myGreatResourceUriForItem":"greatString"},"previous":false}';
+        $compile = '{"items":{"http:\/\/myFancyDomain.com\/myGreatResourceUriForItem":"greatString"},"previous":true}';
         $this->assertEquals($compile, file_get_contents((sys_get_temp_dir(). '/sample/compile/data.json'), __('File content error')));
-        $this->rrmdir(sys_get_temp_dir() . '/sample');
-
     }
-
-    private function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    (is_dir($dir."/".$object)) ? $this->rrmdir($dir."/".$object) : unlink($dir."/".$object);
-                }
-            }
-            reset($objects);
-            rmdir($dir);
-        }
-    }
-
-
-
 
 }
  
