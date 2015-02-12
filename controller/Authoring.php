@@ -71,8 +71,8 @@ class Authoring extends tao_actions_CommonModule {
 		}
 
 
-        $checked = $test->getOnePropertyValue(new core_kernel_classes_Property('previous')) == 'true' ? true : false;
-        $testConfig['previous'] = array('label' => __('Allow test-taker to go back in test'), 'checked' => $checked);
+        $config = $model->getConfig($test);
+        $testConfig['previous'] = array('label' => __('Allow test-taker to go back in test'), 'checked' => $config['previous']);
 
 		$this->setData('uri', $test->getUri());
     	$this->setData('allItems', json_encode($allItems));
@@ -100,7 +100,6 @@ class Authoring extends tao_actions_CommonModule {
 		if(!tao_helpers_Request::isAjax()){
 			throw new \Exception("wrong request mode");
 		}
-		$saved = false;
 
         $itemUris = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
         foreach($this->getRequestParameters() as $key => $value) {
@@ -109,7 +108,7 @@ class Authoring extends tao_actions_CommonModule {
             }
         }
 
-        $config = array('previous',$this->getRequestParameter('previous'));
+        $config = array('previous' => ($this->getRequestParameter('previous') === "true"));
         $testContent = array('itemUris' => $itemUris, 'config' => $config);
         $model = new TestModel();
         $saved = $model->save($test, $testContent);
