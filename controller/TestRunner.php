@@ -59,7 +59,7 @@ class TestRunner extends \tao_actions_ServiceModule {
         }
         
         $this->setData('itemServiceApi', $this->buildItemScript($execution));
-        $this->setData('previous', false);
+        $this->setData('previous', $execution->hasPrevious());
 
         $this->setData('client_config_url', $this->getClientConfigUrl());
         $this->setData('client_timeout', $this->getClientTimeout());

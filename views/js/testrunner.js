@@ -123,9 +123,11 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                                 this.updateItem(itemServiceApi, false);
                             }
                         }
-                        var $previous = $('#previous');
-                        if(data.previous !== $previous.is(':visible')){
-                            $previous.toggle();
+                        if(data.previous){
+                            $('#previous').removeClass('hidden');
+                        }
+                        else{
+                            $('#previous').addClass('hidden');
                         }
                     }
                 });
