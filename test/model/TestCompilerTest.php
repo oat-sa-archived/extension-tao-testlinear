@@ -111,9 +111,10 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
             ->setMethods(array('getPath'))
             ->getMock();
 
+        mkdir(sys_get_temp_dir() . '/sample/compile/', 0777, true);
         $directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/compile/');
+            ->willReturn(sys_get_temp_dir() . '/sample/compile/');
 
 
         $testCompiler->expects($this->once())
@@ -125,12 +126,24 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
         $report = $testCompiler->compile();
 
         $this->assertEquals(__('Test Compilation'), $report->getMessage(),__('Compilation should work'));
-        $this->assertFileExists(dirname(__FILE__). '/../sample/compile/data.json', __('Compilation file not created'));
+        $this->assertFileExists(sys_get_temp_dir(). '/sample/compile/data.json', __('Compilation file not created'));
         $compile = '{"items":{"http:\/\/myFancyDomain.com\/myGreatResourceUriForItem":"greatString"},"previous":false}';
-        $this->assertEquals($compile, file_get_contents((dirname(__FILE__). '/../sample/compile/data.json'), __('File content error')));
+        $this->assertEquals($compile, file_get_contents((sys_get_temp_dir(). '/sample/compile/data.json'), __('File content error')));
+        $this->rrmdir(sys_get_temp_dir() . '/sample');
 
-        unlink((dirname(__FILE__). '/../sample/compile/data.json'));
+    }
 
+    private function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    (is_dir($dir."/".$object)) ? $this->rrmdir($dir."/".$object) : unlink($dir."/".$object);
+                }
+            }
+            reset($objects);
+            rmdir($dir);
+        }
     }
 
 
