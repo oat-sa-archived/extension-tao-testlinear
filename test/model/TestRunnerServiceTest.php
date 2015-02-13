@@ -25,7 +25,6 @@ namespace oat\taoTestLinear\test\model;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoTestLinear\model\TestRunnerService;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  * Test the test runner service to verify that it get the right data

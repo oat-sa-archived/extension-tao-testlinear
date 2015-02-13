@@ -27,7 +27,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoTestLinear\model\TestCompiler;
 use oat\taoTestLinear\model\TestModel;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  * Test the compiler of a linear test

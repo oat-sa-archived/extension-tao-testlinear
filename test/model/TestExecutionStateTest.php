@@ -26,7 +26,6 @@ namespace oat\taoTestLinear\test\model;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoTestLinear\model\TestExecutionState;
 
-include_once dirname(__FILE__) . '/../../includes/raw_start.php';
 
 /**
  * Test Execution test
