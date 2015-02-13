@@ -41,6 +41,30 @@
         </footer>
     </section>
 
+    <section class="sequence-container new-container">
+        <header>
+            <h1><?=__('Test configuration')?></h1>
+        </header>
+
+        <div>
+            <div id="config-list">
+                    <?php foreach(get_data('testConfig') as $config => $value):?>
+                    <div id="config_<?=$config?>" >
+                        <label>
+                            <input type="checkbox" name="<?=$config?>" value="1" <?=($value['checked'])?'checked':'';?>>
+                            <span class="icon-checkbox"></span>
+                            <?=$value['label']?>
+                        </label>
+                    </div>
+                    <?php endforeach?>
+            </div>
+        </div>
+
+        <footer>
+            <button class="saver btn btn-info small"><span class="icon-save"></span><?=__('Save')?></button>
+        </footer>
+    </section>
+
 </div>
 
 <script type="text/javascript">

@@ -48,10 +48,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 iframeNotifier.parent('unloading');
             });
             
-            var that = this;
+            var self = this;
             serviceApi.onFinish(function() {
                 iframeNotifier.parent('loading');
-                that.doNext();
+                self.doNext();
                 iframeNotifier.parent('unloading');
             });
             
@@ -61,17 +61,15 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
         nextItem: function() {
             
             iframeNotifier.parent('loading');
-            var that = this;
+            var self = this;
             
             this.currentItemApi.kill(function(signal) {
-            	that.doNext();
+                self.doNext();
                 iframeNotifier.parent('unloading');
             });
         },
         
         doNext: function() {
-            
-        	var data = 
             $.ajax({
                 context: this,
                 url: helpers._url('next', 'TestRunner', 'taoTestLinear'),
@@ -80,15 +78,59 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 cache: false,
                 type: 'POST',
                 success: function(data, textStatus, jqXhr) {
-                	if (data.api !== null) {
-                		var itemServiceApi = eval(data.api);
-                        this.updateItem(itemServiceApi, false);
-                    }
-                    else {
+                    if (data.api === null) {
                         this.testServiceApi.finish();
+                    } else {
+                        var itemServiceApi = eval(data.api);
+                        if(itemServiceApi instanceof ServiceApi){
+                            this.updateItem(itemServiceApi, false);
+                        }
+                    }
+                    if(data.previous){
+                        $('#previous').removeClass('hidden');
+                    }
+                    else{
+                        $('#previous').addClass('hidden');
                     }
                 }
             });
+
+        },
+
+        previousItem: function() {
+
+            iframeNotifier.parent('loading');
+            var self = this;
+
+            this.currentItemApi.kill(function(signal) {
+                self.doPrevious();
+                iframeNotifier.parent('unloading');
+            });
+        },
+
+        doPrevious: function() {
+                $.ajax({
+                    context: this,
+                    url: helpers._url('previous', 'TestRunner', 'taoTestLinear'),
+                    data: { serviceCallId: this.testServiceApi.getServiceCallId() },
+                    accepts: 'application/json',
+                    cache: false,
+                    type: 'POST',
+                    success: function(data, textStatus, jqXhr) {
+                        if (data.api !== null) {
+                            var itemServiceApi = eval(data.api);
+                            if(itemServiceApi instanceof ServiceApi){
+                                this.updateItem(itemServiceApi, false);
+                            }
+                        }
+                        if(data.previous){
+                            $('#previous').removeClass('hidden');
+                        }
+                        else{
+                            $('#previous').addClass('hidden');
+                        }
+                    }
+                });
 
         },
         
@@ -111,12 +153,16 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                 Controller.updateItem(itemServiceApi, false);
                 
                 // Bindings.
-                $(window).bind('resize', function() {
+                $(window).on('resize', function() {
                     Controller.adjustFrame();
                 });
                 
-                $('#next').bind('click', function() {
+                $('#next').on('click', function() {
                     Controller.nextItem(); 
+                });
+
+                $('#previous').on('click', function() {
+                    Controller.previousItem();
                 });
             };
             
