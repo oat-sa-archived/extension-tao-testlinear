@@ -72,7 +72,8 @@ class Authoring extends tao_actions_CommonModule {
 
 
         $config = $model->getConfig($test);
-        $testConfig['previous'] = array('label' => __('Allow test-taker to go back in test'), 'checked' => $config['previous']);
+        $checked = (isset($config['previous']))? $config['previous'] : false;
+        $testConfig['previous'] = array('label' => __('Allow test-taker to go back in test'), 'checked' => $checked);
 
 		$this->setData('uri', $test->getUri());
     	$this->setData('allItems', json_encode($allItems));
