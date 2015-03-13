@@ -35,6 +35,7 @@ return array(
 	'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager', array('ext'=>'taoTestLinear')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#TestAuthor', array('ext'=>'taoTestLinear', 'mod' => 'Authoring')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoTestLinear', 'mod' => 'TestRunner'))
     ),
 	'install' => array(
