@@ -22,7 +22,7 @@ use oat\tao\helpers\Template;
 		<div id="navigation" class="tao-scope">
 			<div class="grid-row">
 				<div class="col-4 rgt">
-    				<!--  <button id="previous" class="btn-info" title="<?= __("Submit your responses and head for the previous item."); ?>"><span class="icon-backward"></span><?= __("Previous"); ?></button> -->
+                    <button id="previous" class="btn-info <?=get_data('previous')?'':'hidden';?>" title="<?= __("Submit your responses and head for the previous item."); ?>"><span class="icon-backward"></span><?= __("Previous"); ?></button>
     				<button id="next" class="btn-info" title="<?= __("Submit your responses and head for the next item."); ?>"><?= __("Next"); ?><span class="icon-forward r"></span></button>
 				</div>
 			</div>
