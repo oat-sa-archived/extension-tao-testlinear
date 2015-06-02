@@ -1,9 +1,9 @@
-<div id="wf-test-editor" class="data-container-wrapper flex-container-full">
+<div class="data-container-wrapper flex-container-full">
     
     <!-- is this field still required? -->
     <input type='hidden' name='uri' value="<?=get_data('uri')?>" />
 
-    <section class="new-container">
+    <section class="double">
         <header>
             <h1><?=__('Available Items')?></h1>
         </header>
@@ -18,22 +18,20 @@
         </footer>
     </section>
 
-    <section class="sequence-container new-container">
+    <section class="sequence-container">
         <header>
             <h1><?=__('Items sequence')?></h1>
         </header>
 
         <div>
-            <div id="item-list">
-                <span class="elt-info" <?php if (!count(get_data('itemSequence'))) echo ' style="display:none"' ?>><?=__('Drag and drop the items to order them')?></span>
-                <ul id="item-sequence" class="listbox">
-                <?php foreach(get_data('itemSequence') as $index => $item):?>
-                    <li class="ui-state-default" id="item_<?=$item['uri']?>" >
-                        <?=$index?>. <?=$item['label']?>
-                    </li>
-                <?php endforeach?>
-                </ul>
-            </div>
+            <span class="elt-info" <?php if (!count(get_data('itemSequence'))) echo ' style="display:none"' ?>><?=__('Drag and drop the items to order them')?></span>
+            <ul id="item-sequence" class="listbox">
+            <?php foreach(get_data('itemSequence') as $index => $item):?>
+                <li id="item_<?=$item['uri']?>" >
+                    <?=$index?>. <?=$item['label']?>
+                </li>
+            <?php endforeach?>
+            </ul>
         </div>
 
         <footer>
@@ -41,23 +39,21 @@
         </footer>
     </section>
 
-    <section class="sequence-container new-container">
+    <section class="sequence-container">
         <header>
             <h1><?=__('Test configuration')?></h1>
         </header>
 
-        <div>
-            <div id="config-list">
-                    <?php foreach(get_data('testConfig') as $config => $value):?>
-                    <div id="config_<?=$config?>" >
-                        <label>
-                            <input type="checkbox" name="<?=$config?>" value="1" <?=($value['checked'])?'checked':'';?>>
-                            <span class="icon-checkbox"></span>
-                            <?=$value['label']?>
-                        </label>
-                    </div>
-                    <?php endforeach?>
+        <div id="config-list">
+            <?php foreach(get_data('testConfig') as $config => $value):?>
+            <div id="config_<?=$config?>" >
+                <label>
+                    <input type="checkbox" name="<?=$config?>" value="1" <?=($value['checked'])?'checked':'';?>>
+                    <span class="icon-checkbox"></span>
+                    <?=$value['label']?>
+                </label>
             </div>
+            <?php endforeach?>
         </div>
 
         <footer>
@@ -67,7 +63,7 @@
 
 </div>
 
-<script type="text/javascript">
+<script>
 requirejs.config({
     config: {
         'taoTestLinear/controller/Authoring/index' : {
