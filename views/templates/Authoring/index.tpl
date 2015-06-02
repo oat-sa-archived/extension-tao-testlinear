@@ -18,7 +18,7 @@
         </footer>
     </section>
 
-    <section>
+    <section class="sequence-container">
         <header>
             <h1><?=__('Items sequence')?></h1>
         </header>
@@ -39,7 +39,7 @@
         </footer>
     </section>
 
-    <section>
+    <section class="sequence-container">
         <header>
             <h1><?=__('Test configuration')?></h1>
         </header>
