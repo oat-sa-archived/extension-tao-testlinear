@@ -24,7 +24,7 @@ return array(
 	'label' => 'Linear Test Model',
 	'description' => 'A simple linear test model',
     'license' => 'GPL-2.0',
-    'version' => '0.1',
+    'version' => '0.1.1',
 	'author' => 'Open Assessment Technologies SA',
 	'requires' => array(
 	   'tao' => '>=2.7.0'
@@ -43,11 +43,8 @@ return array(
 				dirname(__FILE__). '/scripts/install/test.rdf'
 		),
 	),
-    'autoload' => array (
-        'psr-4' => array(
-            'oat\\taoTestLinear\\' => dirname(__FILE__).DIRECTORY_SEPARATOR
-        )
-    ),
+	'update' => "oat\\taoTestLinear\\scripts\\update\\Updater",
+
     'routes' => array(
         '/taoTestLinear' => 'oat\\taoTestLinear\\controller'
     ),    
