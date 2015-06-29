@@ -19,16 +19,17 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
 		function($, _, __, helpers, iframeNotifier, ServiceApi, UserInfoService, StateStorage) {
     'use strict';
 
+            var $controls;
+
     var Controller = {
         
         testContext: {},
         testServiceApi: null,
         currentItemApi: null,
-            
+
         updateItem: function(serviceApi, loading) {
             
-        	this.currentItemApi = serviceApi;
-        	
+            this.currentItemApi = serviceApi;
             if (loading === true) {
                 iframeNotifier.parent('loading');
             }
@@ -87,10 +88,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                         }
                     }
                     if(data.previous){
-                        $('#previous').removeClass('hidden');
+                        $controls.$previous.removeClass('hidden');
                     }
                     else{
-                        $('#previous').addClass('hidden');
+                        $controls.$previous.addClass('hidden');
                     }
                 }
             });
@@ -124,10 +125,10 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                             }
                         }
                         if(data.previous){
-                            $('#previous').removeClass('hidden');
+                            $controls.$previous.removeClass('hidden');
                         }
                         else{
-                            $('#previous').addClass('hidden');
+                            $controls.$previous.addClass('hidden');
                         }
                     }
                 });
@@ -136,19 +137,25 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
         
         adjustFrame: function() {
             var windowHeight = window.innerHeight ? window.innerHeight : $(window).height();
-            var navHeight = $('#navigation').height();
-            $('#item').height(windowHeight - navHeight);
+            var navHeight = $controls.$bottomActionBar.outerHeight();
+            $('#item').height(windowHeight - navHeight - 4);
         }
     };
     
     return {
         start: function(itemApi) {
-        	
+
             var itemServiceApi = eval(itemApi);
             
             iframeNotifier.parent('loading');
             
             window.onServiceApiReady = function onServiceApiReady(serviceApi) {
+                $controls = {
+                    $previous: $('[data-control="previous"]'),
+                    $next: $('[data-control="next"]'),
+                    $bottomActionBar: $('.horizontal-action-bar.bottom-action-bar')
+                };
+                
                 Controller.testServiceApi = serviceApi;
                 Controller.updateItem(itemServiceApi, false);
                 
@@ -157,13 +164,15 @@ define(['jquery', 'lodash',  'i18n', 'helpers', 'iframeNotifier', 'serviceApi/Se
                     Controller.adjustFrame();
                 });
                 
-                $('#next').on('click', function() {
+                $controls.$next.on('click', function() {
                     Controller.nextItem(); 
                 });
 
-                $('#previous').on('click', function() {
+                $controls.$previous.on('click', function() {
                     Controller.previousItem();
                 });
+
+                $controls.$bottomActionBar.animate({ opacity: 1 }, 600);
             };
             
             
