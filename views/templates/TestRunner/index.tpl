@@ -1,31 +1,53 @@
 <?php
 use oat\tao\helpers\Template;
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Test</title>
-				<link rel="stylesheet" href="<?= Template::css('tao-main-style.css', 'tao') ?>"/>
-                <script type="text/javascript" src="<?= Template::js('lib/require.js', 'tao') ?>"></script>
-                
-                <script type="text/javascript">
-                    (function() {
-                        requirejs.config({waitSeconds : <?=get_data('client_timeout')?> });
-                        require(['<?=get_data('client_config_url')?>'], function(){
-                            require(['taoTestLinear/testrunner'], function(testRunner){
-                                testRunner.start(<?=json_encode(get_data('itemServiceApi'))?>);
-                            });
-                        });
-                    }());
-                </script>
-	</head>
-	<body>
-		<div id="navigation" class="tao-scope">
-			<div class="grid-row">
-				<div class="col-4 rgt">
-                    <button id="previous" class="btn-info <?=get_data('previous')?'':'hidden';?>" title="<?= __("Submit your responses and head for the previous item."); ?>"><span class="icon-backward"></span><?= __("Previous"); ?></button>
-    				<button id="next" class="btn-info" title="<?= __("Submit your responses and head for the next item."); ?>"><?= __("Next"); ?><span class="icon-forward r"></span></button>
-				</div>
-			</div>
-		</div>
-	</body>
+?><!doctype html>
+<html class="no-js" lang="<?= tao_helpers_I18n::getLangCode() ?>">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+    <link rel="stylesheet" href="<?= Template::css('tao-main-style.css', 'tao') ?>"/>
+    <link rel="stylesheet" href="<?= Template::css('test-runner.css', 'taoQtiTest') ?>"/>
+
+    <script src="<?= Template::js('lib/require.js', 'tao') ?>"></script>
+    <script>
+        (function() {
+            requirejs.config({waitSeconds : <?=get_data('client_timeout')?> });
+            require(['<?=get_data('client_config_url')?>'], function(){
+                require(['taoTestLinear/testrunner'], function(testRunner){
+                    testRunner.start(<?=json_encode(get_data('itemServiceApi'))?>);
+                });
+            });
+        }());
+    </script>
+</head>
+
+<body class="qti-test-scope">
+<div class="section-container">
+    <div class="plain action-bar content-action-bar horizontal-action-bar bottom-action-bar">
+        <div class="control-box size-wrapper">
+            <div class="rgt navi-box">
+                <ul class="plain">
+                    <li class="small btn-info action<?=get_data('previous')?'':' hidden';?>" title="<?= __("Submit your responses and head for the previous item."); ?>" data-control="previous">
+                        <a class="li-inner" href="#">
+                            <span class="icon-backward"></span>
+                            <span class="text"><?= __("Previous"); ?></span>
+                        </a>
+                    </li>
+
+                    <li class="small btn-info action" title="<?= __("Submit your responses and head for the next item."); ?>" data-control="next">
+                        <a class="li-inner" href="#">
+                            <span class="text"><?= __("Next") ?></span>
+                            <span class="icon-forward r"></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
 </html>
