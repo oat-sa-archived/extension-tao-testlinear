@@ -21,15 +21,14 @@
 
 namespace oat\taoTestLinear\controller;
 
+use oat\tao\helpers\TreeHelper;
 use tao_actions_CommonModule;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use oat\taoTestLinear\model\TestModel;
 use tao_helpers_Uri;
 use tao_helpers_Request;
-use tao_models_classes_GenerisTreeFactory;
 use tao_helpers_form_GenerisTreeForm;
-use core_kernel_classes_Property;
 
 /**
  * Controller for actions related to the authoring of the linear test model
@@ -83,7 +82,7 @@ class Authoring extends tao_actions_CommonModule {
 		// data for generis tree form
 		$this->setData('relatedItems', json_encode(tao_helpers_Uri::encodeArray($itemUris)));
 
-		$openNodes = tao_models_classes_GenerisTreeFactory::getNodesToOpen($itemUris, new core_kernel_classes_Class(TAO_ITEM_CLASS));
+		$openNodes = TreeHelper::getNodesToOpen($itemUris, new core_kernel_classes_Class(TAO_ITEM_CLASS));
 		$this->setData('itemRootNode', TAO_ITEM_CLASS);
 		$this->setData('itemOpenNodes', $openNodes);
 		$this->setData('saveUrl', _url('saveItems', 'Authoring', 'taoTestLinear'));
