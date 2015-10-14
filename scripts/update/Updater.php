@@ -27,7 +27,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
 	/**
      * 
-     * @param string $currentVersion
+     * @param string $initialVersion
      * @return string $versionUpdatedTo
      */
     public function update($initialVersion) {
@@ -35,6 +35,10 @@ class Updater extends \common_ext_ExtensionUpdater
         $currentVersion = $initialVersion;
 		if ($currentVersion == '0.1' || $currentVersion == '0.1.1') {
 			$currentVersion = '0.1.2';
+		}
+
+	    if ($currentVersion == '0.1.2'){
+			$currentVersion = '0.1.3';
 		}
 
 		return $currentVersion;
