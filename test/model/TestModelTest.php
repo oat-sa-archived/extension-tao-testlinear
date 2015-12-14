@@ -219,7 +219,6 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $items = $this->testModel->getItems($testMock);
 
         $content = json_decode(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'));
-        \common_Logger::w(print_r($content->itemUris,true));
         foreach($items as $item){
             $this->assertContains($item->getUri(), $content->itemUris);
         }
