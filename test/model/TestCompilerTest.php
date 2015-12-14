@@ -38,7 +38,7 @@ use oat\taoTestLinear\model\TestModel;
 class TestCompilerTest extends TaoPhpUnitTestRunner {
 
     /**
-     * @var \taoDelivery_models_classes_TrackedStorage
+     * @var \tao_models_classes_service_FileStorage
      */
     private $storage = null;
 
@@ -63,7 +63,7 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
         $this->item = new \core_kernel_classes_Resource('http://myFancyDomain.com/myGreatResourceUriForItem');
         $this->item->setPropertyValue(new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel'), 'http://www.tao.lu/Ontologies/TAOItem.rdf#QTI');
         $this->testModel = new TestModel();
-        $this->storage = new \taoDelivery_models_classes_TrackedStorage();
+        $this->storage = \tao_models_classes_service_FileStorage::singleton();
 
         $this->testModel->save($this->test, array());
     }
@@ -112,12 +112,12 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
             ->setMethods(array('getPath'))
             ->getMock();
 
-        if(!file_exists(sys_get_temp_dir() . '/sample/compile/')){
-            mkdir(sys_get_temp_dir() . '/sample/compile/', 0777, true);
-        }
+        $tmpDir = \tao_helpers_File::createTempDir();
+        $this->assertFileExists($tmpDir);
+        
         $directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(sys_get_temp_dir() . '/sample/compile/');
+            ->willReturn($tmpDir);
 
 
         $testCompiler->expects($this->once())
@@ -129,9 +129,12 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
         $report = $testCompiler->compile();
 
         $this->assertEquals(__('Test Compilation'), $report->getMessage(),__('Compilation should work'));
-        $this->assertFileExists(sys_get_temp_dir(). '/sample/compile/data.json', __('Compilation file not created'));
+        $this->assertFileExists($tmpDir. 'data.json', __('Compilation file not created'));
         $compile = '{"items":{"http:\/\/myFancyDomain.com\/myGreatResourceUriForItem":"greatString"},"previous":true}';
-        $this->assertEquals($compile, file_get_contents((sys_get_temp_dir(). '/sample/compile/data.json'), __('File content error')));
+        $this->assertEquals($compile, file_get_contents(($tmpDir.'data.json'), __('File content error')));
+        
+        \tao_helpers_File::delTree($tmpDir);
+        $this->assertFileNotExists($tmpDir);
     }
 
 }
