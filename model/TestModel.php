@@ -227,7 +227,7 @@ class TestModel
      * @see taoTests_models_classes_TestModel::getPackerClass()
      */
     public function getPackerClass() {
-        throw new common_exception_NotImplemented("The packer isn't yet implemented for Linear tests");
+        throw new \common_exception_NotImplemented("The packer isn't yet implemented for Linear tests");
     }
 
     /**
