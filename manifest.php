@@ -21,41 +21,38 @@
 
 return array(
     'name' => 'taoTestLinear',
-	'label' => 'Linear Test Model',
-	'description' => 'A simple linear test model',
+    'label' => 'Linear Test Model',
+    'description' => 'A simple linear test model',
     'license' => 'GPL-2.0',
-    'version' => '0.1.4',
-	'author' => 'Open Assessment Technologies SA',
-	'requires' => array(
-	   'tao' => '>=2.14.1'
-        ,'taoTests' => '>=2.6'
+    'version' => '0.1.5',
+    'author' => 'Open Assessment Technologies SA',
+    'requires' => array(
+        'tao' => '>=2.14.1',
+        'taoTests' => '>=2.6'
     ),
-	// for compatibility
-	'dependencies' => array('tao'),
-	'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager',
+    'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager', array('ext'=>'taoTestLinear')),
         array('grant', 'http://www.tao.lu/Ontologies/TAOItem.rdf#TestAuthor', array('ext'=>'taoTestLinear', 'mod' => 'Authoring')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', array('ext'=>'taoTestLinear', 'mod' => 'TestRunner'))
     ),
-	'install' => array(
-		'rdf' => array(
-				dirname(__FILE__). '/scripts/install/test.rdf'
-		),
-	),
-	'update' => "oat\\taoTestLinear\\scripts\\update\\Updater",
-
+    'install' => array(
+        'rdf' => array(
+                dirname(__FILE__). '/scripts/install/test.rdf'
+        ),
+    ),
+    'update' => "oat\\taoTestLinear\\scripts\\update\\Updater",
     'routes' => array(
         '/taoTestLinear' => 'oat\\taoTestLinear\\controller'
     ),    
-	'constants' => array(
-	    # views directory
-	    "DIR_VIEWS" => dirname(__FILE__).DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR,
-	    
-		#BASE URL (usually the domain root)
-		'BASE_URL' => ROOT_URL.'taoTestLinear/',
-	    
-	    #BASE WWW required by JS
-	    'BASE_WWW' => ROOT_URL.'taoTestLinear/views/'
-	)
+    'constants' => array(
+        # views directory
+        "DIR_VIEWS" => dirname(__FILE__).DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR,
+        
+        #BASE URL (usually the domain root)
+        'BASE_URL' => ROOT_URL.'taoTestLinear/',
+        
+        #BASE WWW required by JS
+        'BASE_WWW' => ROOT_URL.'taoTestLinear/views/'
+    )
 );

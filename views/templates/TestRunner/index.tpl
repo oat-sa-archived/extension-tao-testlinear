@@ -1,7 +1,7 @@
 <?php
 use oat\tao\helpers\Template;
 ?><!doctype html>
-<html class="no-js" lang="<?= tao_helpers_I18n::getLangCode() ?>">
+<html lang="<?= tao_helpers_I18n::getLangCode() ?>">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
