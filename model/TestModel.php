@@ -21,6 +21,7 @@
 
 namespace oat\taoTestLinear\model;
 
+use oat\oatbox\service\ConfigurableService;
 use taoTests_models_classes_TestModel;
 use common_ext_ExtensionsManager;
 use core_kernel_classes_Resource;
@@ -34,16 +35,19 @@ use core_kernel_classes_Property;
  * @package taoTestLinear
 
  */
-class TestModel
+class TestModel extends ConfigurableService
 	implements taoTests_models_classes_TestModel
 {
 
-	/**
-     * (non-PHPdoc)
-	 * @see taoTests_models_classes_TestModel::__construct()
-	 */
-	public function __construct() {
+    const SERVICE_ID = 'taoTestLinear/TestModel';
+
+    /**
+     * TestModel constructor.
+     * @param array $options
+     */
+	public function __construct($options = array()) {
 	    common_ext_ExtensionsManager::singleton()->getExtensionById('taoTestLinear'); // loads the extension
+        parent::__construct($options);
 	}
 
     /**
