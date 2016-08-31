@@ -22,7 +22,10 @@
 namespace oat\taoTestLinear\scripts\update;
 
 
-class Updater extends \common_ext_ExtensionUpdater 
+use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoTestLinear\model\TestModel;
+
+class Updater extends \common_ext_ExtensionUpdater
 {
 
 	/**
@@ -33,5 +36,14 @@ class Updater extends \common_ext_ExtensionUpdater
     public function update($initialVersion) {
         
 		$this->skip('0.1','0.1.5');
+
+		if ($this->isVersion('0.1.5')) {
+			OntologyUpdater::syncModels();
+			$testModelService = new TestModel();
+			$testModelService->setServiceManager($this->getServiceManager());
+
+			$this->getServiceManager()->register(TestModel::SERVICE_ID, $testModelService);
+			$this->setVersion('0.2.0');
+		}
 	}
 }
