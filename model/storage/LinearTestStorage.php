@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -22,10 +22,6 @@
 namespace oat\taoTestLinear\model\storage;
 
 use core_kernel_classes_Resource;
-use oat\generis\model\OntologyAwareTrait;
-use oat\oatbox\service\ConfigurableService;
-use oat\generis\model\fileReference\FileReferenceSerializer;
-use oat\oatbox\filesystem\FileSystemService;
 
 interface LinearTestStorage
 {

@@ -26,7 +26,7 @@ use taoTests_models_classes_TestModel;
 use common_ext_ExtensionsManager;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
-use oat\taoTestLinear\model\storage\DeprecatedStorage;
+use oat\taoTestLinear\model\storage\LinearTestStorage;
 
 /**
  * the linear TestModel
@@ -140,6 +140,9 @@ class TestModel extends ConfigurableService
         throw new \common_exception_NotImplemented("The packer isn't yet implemented for Linear tests");
     }
     
+    /**
+     * @return LinearTestStorage
+     */
     protected function getStorage()
     {
         return $this->getServiceLocator()->get($this->getOption(self::OPTION_STORAGE));
