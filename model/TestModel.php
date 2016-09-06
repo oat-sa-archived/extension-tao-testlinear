@@ -142,7 +142,7 @@ class TestModel extends ConfigurableService
     
     protected function getStorage()
     {
-        return $this->getDependency(self::OPTION_STORAGE);
+        return $this->getServiceLocator()->get($this->getOption(self::OPTION_STORAGE));
     }
 
     /**

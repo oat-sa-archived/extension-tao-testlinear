@@ -32,10 +32,12 @@ class SetupLinearModel extends \common_ext_action_InstallAction
         $source = $fsService->createFileSystem('taoTestLinear');
         $this->registerService(FileSystemService::SERVICE_ID, $fsService);
         
-        $service = new TestModel([
-            TestModel::OPTION_STORAGE => new FlyStorage([
+        $this->registerService('taoTestLinear/storage', new FlyStorage([
                 FlyStorage::OPTION_FILESYSTEM => 'taoTestLinear'
-            ])
+        ]));
+        
+        $service = new TestModel([
+            TestModel::OPTION_STORAGE => 'taoTestLinear/storage' 
         ]);
         
         $this->registerService(TestModel::SERVICE_ID, $service);

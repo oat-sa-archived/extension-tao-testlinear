@@ -27,7 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
 
-class FlyStorage extends ConfigurableService
+class FlyStorage extends ConfigurableService implements LinearTestStorage
 {
     use OntologyAwareTrait;
     
