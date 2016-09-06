@@ -32,11 +32,30 @@ class SetupLinearModel extends \common_ext_action_InstallAction
         $source = $fsService->createFileSystem('taoTestLinear');
         $this->registerService(FileSystemService::SERVICE_ID, $fsService);
         
-        $service = new TestModel([
-            TestModel::OPTION_STORAGE => new FlyStorage([
-                FlyStorage::OPTION_FILESYSTEM => 'taoTestLinear'
-            ])
-        ]);
+        $service = new TestModel(
+                array(
+                    TestModel::OPTION_STORAGE => array(
+                        'service' => 'tao.testlinear.storage',
+                        'options' => 
+                            [
+                                FlyStorage::OPTION_FILESYSTEM => 'taoTestLinear',
+                            ]
+                        )
+                    )
+                );
+        
+        $injectorConfig = 
+                            [
+                                \oat\oatbox\service\factory\ZendServiceManager::class => 
+                                    [
+                                        'invokables' =>
+                                        [
+                                            'tao.testlinear.storage'      => '\\oat\\taoTestLinear\\model\\storage\\FlyStorage' ,
+                                        ]
+                                    ]
+                            ];
+        
+        $this->setServiceInjectorConfig($injectorConfig);
         
         $this->registerService(TestModel::SERVICE_ID, $service);
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Linear Test model setup correctly');

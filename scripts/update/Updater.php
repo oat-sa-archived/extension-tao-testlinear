@@ -49,8 +49,35 @@ class Updater extends \common_ext_ExtensionUpdater
 		
 		if ($this->isVersion('0.2.0')) {
 		    $testModelService = $this->getServiceManager()->get(TestModel::SERVICE_ID);
-		    $testModelService->setOption(TestModel::OPTION_STORAGE, new DeprecatedStorage());
-		
+		    $testModelService->setOptions(
+                             array(
+                    TestModel::OPTION_STORAGE => array(
+                            'service' => 'tao.testlinear.storage',
+                            'options' => 
+                                [
+                                    FlyStorage::OPTION_FILESYSTEM => 'taoTestLinear',
+                                ]
+                            )
+                        )
+                    );
+
+                    $injectorConfig = 
+                            [
+                                \oat\oatbox\service\factory\ZendServiceManager::class => 
+                                    [
+                                        'invokables' =>
+                                        [
+                                            'tao.testlinear.storage'      => '\\oat\\taoTestLinear\\model\\storage\\FlyStorage' ,
+                                        ]
+                                    ]
+                            ];
+
+                    $injector = $this->getServiceManager()->get(ServiceInjectorRegistry::SERVICE_ID);
+
+                    $injector->overLoad(
+                        $injectorConfig
+                    );
+                    
 		    $this->getServiceManager()->register(TestModel::SERVICE_ID, $testModelService);
 		    $this->setVersion('1.0.0');
 		}

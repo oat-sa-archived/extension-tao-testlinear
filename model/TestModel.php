@@ -43,6 +43,9 @@ class TestModel extends ConfigurableService
     const SERVICE_ID = 'taoTestLinear/TestModel';
     
     const OPTION_STORAGE = 'storage';
+    
+    protected $storage;
+
 
     /**
      * TestModel constructor.
@@ -140,9 +143,18 @@ class TestModel extends ConfigurableService
         throw new \common_exception_NotImplemented("The packer isn't yet implemented for Linear tests");
     }
     
+    /**
+     * 
+     * @return type
+     */
     protected function getStorage()
     {
-        return $this->getDependency(self::OPTION_STORAGE);
+        if(is_null($this->storage)) {
+            $option = $this->getOption(self::OPTION_STORAGE);
+            $this->storage = $this->getServiceInjector()->get($option['service']);
+            $this->storage->setOptions(option['options']);
+        }
+        return $this->storage;
     }
 
     /**

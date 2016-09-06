@@ -36,19 +36,19 @@ class FlyStorage extends ConfigurableService
     /**
      *
      * @param core_kernel_classes_Resource $test
-     * @param array $itemUris
+     * @param array $content
      * @return boolean
      */
     public function save(core_kernel_classes_Resource $test, array $content)
     {
-        $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+        $serializer = $this->getServiceInjector()->get(FileReferenceSerializer::SERVICE_ID);
         $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
         
         if(!is_null($serial)){
             $directory = $serializer->unserialize($serial);
         } else {
             // null so create one
-            $fss = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
+            $fss = $this->getServiceInjector()->get(FileSystemService::SERVICE_ID);
             $base = $fss->getDirectory($this->getOption(self::OPTION_FILESYSTEM));
             
             $directory = $base->getDirectory(\tao_helpers_Uri::getUniqueId(\common_Utils::getNewUri()));
@@ -59,7 +59,7 @@ class FlyStorage extends ConfigurableService
     
     public function load(core_kernel_classes_Resource $test)
     {
-        $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+        $serializer = $this->getServiceInjector()->get(FileReferenceSerializer::SERVICE_ID);
         $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
         if(is_null($serial)){
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
