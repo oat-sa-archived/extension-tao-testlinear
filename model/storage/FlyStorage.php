@@ -27,7 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
 
-class FlyStorage extends ConfigurableService
+class FlyStorage extends ConfigurableService implements LinearTestStorage
 {
     use OntologyAwareTrait;
     
@@ -43,12 +43,12 @@ class FlyStorage extends ConfigurableService
     {
         $serializer = $this->getServiceInjector()->get(FileReferenceSerializer::SERVICE_ID);
         $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
-        
         if(!is_null($serial)){
             $directory = $serializer->unserialize($serial);
         } else {
             // null so create one
             $fss = $this->getServiceInjector()->get(FileSystemService::SERVICE_ID);
+            
             $base = $fss->getDirectory($this->getOption(self::OPTION_FILESYSTEM));
             
             $directory = $base->getDirectory(\tao_helpers_Uri::getUniqueId(\common_Utils::getNewUri()));

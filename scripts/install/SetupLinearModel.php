@@ -31,7 +31,7 @@ class SetupLinearModel extends \common_ext_action_InstallAction
         $fsService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
         $source = $fsService->createFileSystem('taoTestLinear');
         $this->registerService(FileSystemService::SERVICE_ID, $fsService);
-        
+
         $service = new TestModel(
                 array(
                     TestModel::OPTION_STORAGE => array(

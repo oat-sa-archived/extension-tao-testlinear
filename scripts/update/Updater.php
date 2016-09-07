@@ -48,7 +48,10 @@ class Updater extends \common_ext_ExtensionUpdater
 		}
 		
 		if ($this->isVersion('0.2.0')) {
+		    $this->getServiceManager()->register('taoTestLinear/storage', new DeprecatedStorage());
+
 		    $testModelService = $this->getServiceManager()->get(TestModel::SERVICE_ID);
+
 		    $testModelService->setOptions(
                              array(
                     TestModel::OPTION_STORAGE => array(
@@ -78,6 +81,7 @@ class Updater extends \common_ext_ExtensionUpdater
                         $injectorConfig
                     );
                     
+
 		    $this->getServiceManager()->register(TestModel::SERVICE_ID, $testModelService);
 		    $this->setVersion('1.0.0');
 		}

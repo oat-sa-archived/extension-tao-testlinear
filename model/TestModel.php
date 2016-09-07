@@ -26,7 +26,7 @@ use taoTests_models_classes_TestModel;
 use common_ext_ExtensionsManager;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
-use oat\taoTestLinear\model\storage\DeprecatedStorage;
+use oat\taoTestLinear\model\storage\LinearTestStorage;
 
 /**
  * the linear TestModel
@@ -145,14 +145,14 @@ class TestModel extends ConfigurableService
     
     /**
      * 
-     * @return type
+     * @return LinearTestStorage
      */
     protected function getStorage()
     {
         if(is_null($this->storage)) {
             $option = $this->getOption(self::OPTION_STORAGE);
             $this->storage = $this->getServiceInjector()->get($option['service']);
-            $this->storage->setOptions(option['options']);
+            $this->storage->setOptions($option['options']);
         }
         return $this->storage;
     }

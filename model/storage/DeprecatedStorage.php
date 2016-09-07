@@ -26,7 +26,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ConfigurableService;
 
-class DeprecatedStorage extends ConfigurableService
+class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
 {
     use OntologyAwareTrait, PhpSerializeStateless;
 
