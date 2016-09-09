@@ -40,8 +40,8 @@ class TestRunnerService extends \tao_models_classes_ClassService{
 
     public function getItemData($compilationId) {
         if (!isset($this->itemDataCache[$compilationId])) {
-            $filePath = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($compilationId)->getPath().'data.json';
-            $json = file_get_contents($filePath);
+            $dir = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($compilationId);
+            $json = $dir->getFile('data.json')->read();
             $items = json_decode($json, true);
             if (!is_array($items)) {
                 throw new \common_exception_Error('Unable to load compilation data for '.$compilationId);
@@ -60,8 +60,8 @@ class TestRunnerService extends \tao_models_classes_ClassService{
         if(!isset($this->previousCache[$compilationId])){
             $previous = false;
 
-            $filePath = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($compilationId)->getPath().'data.json';
-            $json = file_get_contents($filePath);
+            $dir = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($compilationId);
+            $json = $dir->getFile('data.json')->read();
             $config = json_decode($json, true);
             if (!is_array($config)) {
                 throw new \common_exception_Error('Unable to load compilation data for '.$compilationId);
