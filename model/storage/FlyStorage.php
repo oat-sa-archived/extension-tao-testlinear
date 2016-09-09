@@ -45,7 +45,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
         $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
         
         if(!is_null($serial)){
-            $directory = $serializer->unserialize($serial);
+            $directory = $serializer->unserializeDirectory($serial);
         } else {
             // null so create one
             $fss = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
@@ -64,7 +64,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
         if(is_null($serial)){
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
         }
-        $directory = $serializer->unserialize($serial);
+        $directory = $serializer->unserializeDirectory($serial);
         $json = $directory->getFile('content.json')->read();
         $decoded = json_decode($json, true);
         if ($decoded === false) {

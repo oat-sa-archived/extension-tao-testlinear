@@ -45,12 +45,12 @@ class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
         } else {
             //get the real directory (or the encoded items if an old test)
             $directory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($directoryId->literal);
-            if(!$directory->has('getContent')) {
+            if(!$directory->has('content.json')) {
                 //create a new directory if items are stored in content
                 $directory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
             }
         }
-        $directory->write('content.json', json_encode($itemUris));
+        $directory->getFile('content.json')->put('content.json', json_encode($itemUris));
         return $test->editPropertyValues($this->getProperty(TEST_TESTCONTENT_PROP), $directory->getId());
     }
     
