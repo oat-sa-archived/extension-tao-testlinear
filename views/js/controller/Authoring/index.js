@@ -96,9 +96,11 @@ define([
 
             $(".sequence-container .saver").click(function(){
                 var toSend = {};
+                var instances = [];
                 for(var index in sequence){
-                    toSend['instance_'+index] = sequence[index];
+                	instances.push(sequence[index]);
                 }
+                toSend.instances = JSON.stringify(instances);
 
                 $('[id*="config_"]').each(function(){
                     var $config = $(this);
@@ -118,9 +120,6 @@ define([
                             if (response.saved) {
                                 feedback().success(__('Sequence saved successfully'));
                             }
-                    },
-                    complete: function(){
-                        helpers.loaded();
                     }
                 });
             });

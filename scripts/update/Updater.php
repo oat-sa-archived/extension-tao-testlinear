@@ -22,7 +22,11 @@
 namespace oat\taoTestLinear\scripts\update;
 
 
-class Updater extends \common_ext_ExtensionUpdater 
+use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoTestLinear\model\TestModel;
+use oat\taoTestLinear\model\storage\DeprecatedStorage;
+
+class Updater extends \common_ext_ExtensionUpdater
 {
 
 	/**
@@ -33,5 +37,24 @@ class Updater extends \common_ext_ExtensionUpdater
     public function update($initialVersion) {
         
 		$this->skip('0.1','0.1.5');
+
+		if ($this->isVersion('0.1.5')) {
+			OntologyUpdater::syncModels();
+			$testModelService = new TestModel();
+			$testModelService->setServiceManager($this->getServiceManager());
+
+			$this->getServiceManager()->register(TestModel::SERVICE_ID, $testModelService);
+			$this->setVersion('0.2.0');
+		}
+		
+		if ($this->isVersion('0.2.0')) {
+		    $this->getServiceManager()->register('taoTestLinear/storage', new DeprecatedStorage());
+
+		    $testModelService = $this->getServiceManager()->get(TestModel::SERVICE_ID);
+		    $testModelService->setOption(TestModel::OPTION_STORAGE, 'taoTestLinear/storage');
+		
+		    $this->getServiceManager()->register(TestModel::SERVICE_ID, $testModelService);
+		    $this->setVersion('1.0.0');
+		}
 	}
 }

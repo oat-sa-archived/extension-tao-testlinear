@@ -25,6 +25,7 @@ use taoTests_models_classes_TestCompiler;
 use common_report_Report;
 use core_kernel_classes_Resource;
 use tao_models_classes_service_ServiceCall;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Compiles a test and item
@@ -48,7 +49,7 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
         $report = new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Test Compilation'));
         
         $map = array();
-        $model = new TestModel();
+        $model = $this->getServiceManager()->get(TestModel::SERVICE_ID);
         foreach ($model->getItems($this->getResource()) as $item) {
             $subReport = $this->subCompile($item);
             $report->add($subReport);
@@ -68,11 +69,10 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
         if ($report->getType() === common_report_Report::TYPE_SUCCESS) {
             $config = array();
             $private = $this->spawnPrivateDirectory();
-            $file = $private->getPath().'data.json';
             $config['items'] = $map;
             $config = array_merge($config, $model->getConfig($this->getResource()));
 
-            file_put_contents($file, json_encode($config));
+            $private->getFile('data.json')->write(json_encode($config));
             $report->setData($this->buildServiceCall($private));
         }
         
@@ -95,5 +95,10 @@ class TestCompiler extends taoTests_models_classes_TestCompiler
         $service->addInParameter($param);
     
         return $service;
+    }
+    
+    public function getServiceManager()
+    {
+        return ServiceManager::getServiceManager();
     }
 }

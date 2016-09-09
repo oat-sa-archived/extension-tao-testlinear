@@ -48,7 +48,7 @@ class Authoring extends tao_actions_CommonModule {
 
         $test = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
         
-        $model = new TestModel();
+        $model = $this->getServiceManager()->get(TestModel::SERVICE_ID);
 
         $itemSequence = array();
         $itemUris = array();
@@ -110,7 +110,7 @@ class Authoring extends tao_actions_CommonModule {
 
         $config = array('previous' => ($this->getRequestParameter('previous') === "true"));
         $testContent = array('itemUris' => $itemUris, 'config' => $config);
-        $model = new TestModel();
+        $model = $this->getServiceManager()->get(TestModel::SERVICE_ID);
         $saved = $model->save($test, $testContent);
         $this->returnJson(array('saved'	=> $saved));
     }
