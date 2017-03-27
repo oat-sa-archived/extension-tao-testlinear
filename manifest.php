@@ -25,11 +25,11 @@ return array(
     'label' => 'Linear Test Model',
     'description' => 'A simple linear test model',
     'license' => 'GPL-2.0',
-    'version' => '1.0.0',
+    'version' => '2.0.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=2.14.1',
-        'taoTests' => '>=3.4.0'
+        'taoTests' => '>=4.0.0'
     ),
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager',
     'acl' => array(

@@ -26,6 +26,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
+use taoTests_models_classes_TestsService as TestService;
 
 class FlyStorage extends ConfigurableService implements LinearTestStorage
 {
@@ -42,7 +43,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
     public function save(core_kernel_classes_Resource $test, array $content)
     {
         $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-        $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
+        $serial = $test->getOnePropertyValue($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
         
         if(!is_null($serial)){
             $directory = $serializer->unserializeDirectory($serial);
@@ -52,7 +53,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
             $base = $fss->getDirectory($this->getOption(self::OPTION_FILESYSTEM));
             
             $directory = $base->getDirectory(\tao_helpers_Uri::getUniqueId(\common_Utils::getNewUri()));
-            $test->editPropertyValues($this->getProperty(TEST_TESTCONTENT_PROP), $serializer->serialize($directory));
+            $test->editPropertyValues($this->getProperty(TestService::TEST_TESTCONTENT_PROP), $serializer->serialize($directory));
         }
         return $directory->getFile('content.json')->put(json_encode($content));
     }
@@ -60,7 +61,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
     public function load(core_kernel_classes_Resource $test)
     {
         $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-        $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
+        $serial = $test->getOnePropertyValue($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
         if(is_null($serial)){
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
         }
@@ -80,9 +81,9 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
     public function deleteContent( core_kernel_classes_Resource $test)
     {
         $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-        $serial = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
+        $serial = $test->getOnePropertyValue($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
         $serializer->cleanUp($serial);
-		$test->removePropertyValues($this->getProperty(TEST_TESTCONTENT_PROP));
+		$test->removePropertyValues($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
     }
 
 }
