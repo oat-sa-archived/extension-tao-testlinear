@@ -83,8 +83,8 @@ class Authoring extends tao_actions_CommonModule {
 		// data for generis tree form
 		$this->setData('relatedItems', json_encode(tao_helpers_Uri::encodeArray($itemUris)));
 
-		$openNodes = TreeHelper::getNodesToOpen($itemUris, new core_kernel_classes_Class(TaoOntology::ITEM_CLASS));
-		$this->setData('itemRootNode', TaoOntology::ITEM_CLASS);
+		$openNodes = TreeHelper::getNodesToOpen($itemUris, new core_kernel_classes_Class(TaoOntology::ITEM_CLASS_URI));
+		$this->setData('itemRootNode', TaoOntology::ITEM_CLASS_URI);
 		$this->setData('itemOpenNodes', $openNodes);
 		$this->setData('saveUrl', _url('saveItems', 'Authoring', 'taoTestLinear'));
         $this->setView('Authoring/index.tpl');
