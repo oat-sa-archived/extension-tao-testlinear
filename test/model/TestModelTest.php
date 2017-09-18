@@ -94,7 +94,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'removePropertyValues'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TestService::TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
 
         //create the tree to delete
@@ -160,7 +160,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TestService::TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
         //Get directory to remove (new method)
         $testMock->expects($this->once())
@@ -179,7 +179,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TestService::TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
 
         //Get directory to get Items
