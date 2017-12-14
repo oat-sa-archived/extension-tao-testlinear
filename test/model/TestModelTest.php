@@ -94,7 +94,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'removePropertyValues'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TestService::TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
 
         //create the tree to delete
@@ -160,7 +160,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TestService::TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
         //Get directory to remove (new method)
         $testMock->expects($this->once())
@@ -179,7 +179,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TestService::TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
 
         //Get directory to get Items
@@ -233,7 +233,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
 
         //Get directory to get Items
@@ -293,7 +293,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
 
         //Get directory to get Items
@@ -369,7 +369,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'editPropertyValues'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
         $itemUris = array("http://tao.localdomain:8888/tao.rdf#i1421426057643811", "http://tao.localdomain:8888/tao.rdf#i1421426059534113");
 
@@ -445,7 +445,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'editPropertyValues'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
         $itemUris = array("http://tao.localdomain:8888/tao.rdf#i1421426057890756", "http://tao.localdomain:8888/tao.rdf#i0099886059534113");
 
@@ -507,7 +507,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'editPropertyValues'))
             ->getMock();
-        $propInstanceContent = new \core_kernel_classes_Property(TEST_TESTCONTENT_PROP);
+        $propInstanceContent = new \core_kernel_classes_Property(TestService::PROPERTY_TEST_CONTENT);
 
         $itemUris = array("http://tao.localdomain:8888/tao.rdf#i9988776057890756", "http://tao.localdomain:8888/tao.rdf#i0099886059556677");
 
