@@ -28,7 +28,7 @@ return array(
     'version' => '3.1.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'tao' => '>=9.0.0',
+        'tao' => '>=14.3.1',
         'taoTests' => '>=4.0.0'
     ),
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoTestLinearManager',
