@@ -43,7 +43,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
     public function save(core_kernel_classes_Resource $test, array $content)
     {
         $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-        $serial = $test->getOnePropertyValue($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
+        $serial = $test->getOnePropertyValue($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
         
         if(!is_null($serial)){
             $directory = $serializer->unserializeDirectory($serial);
@@ -53,7 +53,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
             $base = $fss->getDirectory($this->getOption(self::OPTION_FILESYSTEM));
             
             $directory = $base->getDirectory(\tao_helpers_Uri::getUniqueId(\common_Utils::getNewUri()));
-            $test->editPropertyValues($this->getProperty(TestService::TEST_TESTCONTENT_PROP), $serializer->serialize($directory));
+            $test->editPropertyValues($this->getProperty(TestService::PROPERTY_TEST_CONTENT), $serializer->serialize($directory));
         }
         return $directory->getFile('content.json')->put(json_encode($content));
     }
@@ -61,7 +61,7 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
     public function load(core_kernel_classes_Resource $test)
     {
         $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-        $serial = $test->getOnePropertyValue($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
+        $serial = $test->getOnePropertyValue($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
         if(is_null($serial)){
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
         }
@@ -81,9 +81,9 @@ class FlyStorage extends ConfigurableService implements LinearTestStorage
     public function deleteContent( core_kernel_classes_Resource $test)
     {
         $serializer = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-        $serial = $test->getOnePropertyValue($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
+        $serial = $test->getOnePropertyValue($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
         $serializer->cleanUp($serial);
-		$test->removePropertyValues($this->getProperty(TestService::TEST_TESTCONTENT_PROP));
+		$test->removePropertyValues($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
     }
 
 }

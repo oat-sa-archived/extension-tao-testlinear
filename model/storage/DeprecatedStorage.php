@@ -25,6 +25,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\PhpSerializeStateless;
 use oat\oatbox\service\ConfigurableService;
+use taoTests_models_classes_TestsService as TestService;
 
 class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
 {
@@ -38,7 +39,7 @@ class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
      */
     public function save(core_kernel_classes_Resource $test, array $itemUris)
     {
-        $directoryId = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
+        $directoryId = $test->getOnePropertyValue($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
         //null so create one
         if(is_null($directoryId)){
             $directory = \tao_models_classes_service_FileStorage::singleton()->spawnDirectory(true);
@@ -51,12 +52,12 @@ class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
             }
         }
         $directory->getFile('content.json')->put('content.json', json_encode($itemUris));
-        return $test->editPropertyValues($this->getProperty(TEST_TESTCONTENT_PROP), $directory->getId());
+        return $test->editPropertyValues($this->getProperty(TestService::PROPERTY_TEST_CONTENT), $directory->getId());
     }
     
     public function load(core_kernel_classes_Resource $test)
     {
-        $directoryId = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
+        $directoryId = $test->getOnePropertyValue($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
         if(is_null($directoryId)){
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
         }
@@ -85,7 +86,7 @@ class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
     public function deleteContent( core_kernel_classes_Resource $test)
     {
         /** @var \core_kernel_classes_Literal $directoryId */
-        $directoryId = $test->getOnePropertyValue($this->getProperty(TEST_TESTCONTENT_PROP));
+        $directoryId = $test->getOnePropertyValue($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
         if(is_null($directoryId)){
             throw new \common_exception_FileSystemError(__('Unknown test directory'));
         }
@@ -93,7 +94,7 @@ class DeprecatedStorage extends ConfigurableService implements LinearTestStorage
         $directory = \tao_models_classes_service_FileStorage::singleton()->getDirectoryById($directoryId->literal);
         $directory->deleteSelf();
 
-		$test->removePropertyValues($this->getProperty(TEST_TESTCONTENT_PROP));
+		$test->removePropertyValues($this->getProperty(TestService::PROPERTY_TEST_CONTENT));
     }
 
 }
