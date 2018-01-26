@@ -24,8 +24,8 @@ return array(
     'name' => 'taoTestLinear',
     'label' => 'Linear Test Model',
     'description' => 'A simple linear test model',
-    'license' => 'GPL-2.0',
-    'version' => '3.1.0',
+    'license' => 'GPL-2.0-only',
+    'version' => '3.1.1',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=12.21.4',
