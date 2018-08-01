@@ -19,7 +19,7 @@
  *
  */
 
-namespace oat\taoTestLinear\test\model;
+namespace oat\taoTestLinear\test\integration\model;
 
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -34,8 +34,8 @@ use taoTests_models_classes_TestsService as TestService;
  * @author Antoine Robin, <antoine.robin@vesperiagroup.com>
  * @package taoTestLinear
  */
-class TestModelTest extends TaoPhpUnitTestRunner {
-
+class TestModelTest extends TaoPhpUnitTestRunner
+{
     /**
      * @var TestModel
      */
@@ -45,23 +45,26 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
     private $uri = "";
 
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
         $this->testModel = new TestModel();
         $this->uri = "MyGreatTestUri#123";
         $this->test = new \core_kernel_classes_Resource($this->uri);
-        if(!file_exists(sys_get_temp_dir(). '/sample/')){
-            mkdir(sys_get_temp_dir(). '/sample/');
+        if (!file_exists(sys_get_temp_dir() . '/sample/')) {
+            mkdir(sys_get_temp_dir() . '/sample/');
         }
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         $ref = new \ReflectionProperty('tao_models_classes_service_FileStorage', 'instance');
         $ref->setAccessible(true);
         $ref->setValue(null, null);
     }
 
-    public function testGetAuthoringUrl() {
+    public function testGetAuthoringUrl()
+    {
         $expectedUrl = \tao_helpers_Uri::getRootUrl() . "taoTestLinear/Authoring/index?uri=" . urlencode($this->uri);
 
 
@@ -69,26 +72,28 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $this->assertEquals($expectedUrl, $url, __('The authoring url is malformed'));
     }
 
-    public function testPrepareContent() {
+    public function testPrepareContent()
+    {
 
         $testModelMock = $this->getMockBuilder('oat\taoTestLinear\model\TestModel')
             ->setMethods(array('save'))
             ->getMock();
 
         $itemUris = array("MyFirstItem#123", "MySecondItem#456");
-        $firstItem= new \core_kernel_classes_Resource($itemUris[0]);
-        $secondItem= new \core_kernel_classes_Resource($itemUris[1]);
+        $firstItem = new \core_kernel_classes_Resource($itemUris[0]);
+        $secondItem = new \core_kernel_classes_Resource($itemUris[1]);
 
         $items = array($firstItem, $secondItem);
 
         $testModelMock->expects($this->once())
             ->method('save')
-            ->with($this->test, $itemUris);
+            ->with($this->test);
 
         $testModelMock->prepareContent($this->test, $items);
     }
 
-    public function testDeleteContent(){
+    public function testDeleteContent()
+    {
 
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
@@ -98,10 +103,10 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
 
         //create the tree to delete
-        if(!is_dir(sys_get_temp_dir() . '/sample/test')){
-            mkdir(sys_get_temp_dir(). '/sample/test');
+        if (!is_dir(sys_get_temp_dir() . '/sample/test')) {
+            mkdir(sys_get_temp_dir() . '/sample/test');
         }
-        $file = sys_get_temp_dir(). '/sample/test/content.json';
+        $file = sys_get_temp_dir() . '/sample/test/content.json';
         file_put_contents($file, 'content');
 
         //Get directory to remove (new method)
@@ -135,7 +140,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMock->expects($this->exactly(2))
             ->method('getPath')
-            ->willReturn(sys_get_temp_dir(). '/sample/test');
+            ->willReturn(sys_get_temp_dir() . '/sample/test');
 
 
         $storageMock->expects($this->once())
@@ -147,14 +152,15 @@ class TestModelTest extends TaoPhpUnitTestRunner {
         $this->testModel->deleteContent($testMock);
 
 
-        $this->assertFalse(file_exists(sys_get_temp_dir(). '/sample/test/content.json'), __('content.json should be delete'));
-        $this->assertFalse(is_dir(sys_get_temp_dir(). '/sample/test'), __('directory tree should be delete'));
+        $this->assertFalse(file_exists(sys_get_temp_dir() . '/sample/test/content.json'), __('content.json should be delete'));
+        $this->assertFalse(is_dir(sys_get_temp_dir() . '/sample/test'), __('directory tree should be delete'));
     }
 
     /**
      * @expectedException \common_exception_FileSystemError
      */
-    public function testDeleteContentException(){
+    public function testDeleteContentException()
+    {
 
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
@@ -173,7 +179,8 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function testGetItems(){
+    public function testGetItems()
+    {
 
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
@@ -208,8 +215,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMock->expects($this->exactly(2))
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/source/');
-
+            ->willReturn(dirname(__FILE__) . '/../sample/source/');
 
 
         $storageMock->expects($this->once())
@@ -219,15 +225,16 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $items = $this->testModel->getItems($testMock);
 
-        $content = json_decode(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'));
-        foreach($items as $item){
+        $content = json_decode(file_get_contents(dirname(__FILE__) . '/../sample/source/content.json'));
+        foreach ($items as $item) {
             $this->assertContains($item->getUri(), $content->itemUris);
         }
 
 
     }
 
-    public function testGetConfig(){
+    public function testGetConfig()
+    {
 
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
@@ -262,8 +269,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMock->expects($this->exactly(2))
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/source/');
-
+            ->willReturn(dirname(__FILE__) . '/../sample/source/');
 
 
         $storageMock->expects($this->once())
@@ -273,8 +279,8 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $config = $this->testModel->getConfig($testMock);
 
-        $content = json_decode(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'));
-        foreach($config as $key => $value){
+        $content = json_decode(file_get_contents(dirname(__FILE__) . '/../sample/source/content.json'));
+        foreach ($config as $key => $value) {
             $this->assertTrue(property_exists($content->config, $key));
             $this->assertEquals($value, $content->config->$key);
         }
@@ -282,7 +288,8 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function testCloneContent(){
+    public function testCloneContent()
+    {
 
         $testMockSource = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
@@ -328,19 +335,19 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMockSource->expects($this->exactly(2))
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/source/');
+            ->willReturn(dirname(__FILE__) . '/../sample/source/');
 
         $directoryMockDest = $this->getMockBuilder('tao_models_classes_service_StorageDirectory')
             ->disableOriginalConstructor()
             ->setMethods(array('getPath'))
             ->getMock();
 
-        if(!file_exists(sys_get_temp_dir(). '/sample/dest/')){
-            mkdir(sys_get_temp_dir(). '/sample/dest/');
+        if (!file_exists(sys_get_temp_dir() . '/sample/dest/')) {
+            mkdir(sys_get_temp_dir() . '/sample/dest/');
         }
         $directoryMockDest->expects($this->exactly(2))
             ->method('getPath')
-            ->willReturn(sys_get_temp_dir(). '/sample/dest/');
+            ->willReturn(sys_get_temp_dir() . '/sample/dest/');
 
 
         $storageMock->expects($this->at(0))
@@ -355,16 +362,18 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $this->testModel->cloneContent($testMockSource, $testMockDest);
 
-        $this->assertEquals(file_get_contents(dirname(__FILE__). '/../sample/source/content.json'), file_get_contents(sys_get_temp_dir(). '/sample/dest/content.json'));
+        $this->assertEquals(file_get_contents(dirname(__FILE__) . '/../sample/source/content.json'), file_get_contents(sys_get_temp_dir() . '/sample/dest/content.json'));
 
 
     }
 
-    public function testGetCompilerClass() {
+    public function testGetCompilerClass()
+    {
         $this->assertEquals('oat\\taoTestLinear\\model\\TestCompiler', $this->testModel->getCompilerClass(), __('it isn\t the right compiler class'));
     }
 
-    public function testSaveFormer() {
+    public function testSaveFormer()
+    {
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'editPropertyValues'))
@@ -412,7 +421,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(sys_get_temp_dir(). '/sample/');
+            ->willReturn(sys_get_temp_dir() . '/sample/');
 
         $directoryMock->expects($this->once())
             ->method('getId')
@@ -431,7 +440,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $edit = $this->testModel->save($testMock, $itemUris);
 
-        $file = json_decode(file_get_contents(sys_get_temp_dir(). '/sample/content.json'));
+        $file = json_decode(file_get_contents(sys_get_temp_dir() . '/sample/content.json'));
 
 
         $this->assertEquals(true, $edit, __('Should edit the property value'));
@@ -440,7 +449,8 @@ class TestModelTest extends TaoPhpUnitTestRunner {
     }
 
 
-    public function testSaveNull() {
+    public function testSaveNull()
+    {
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'editPropertyValues'))
@@ -474,7 +484,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(sys_get_temp_dir(). '/sample/');
+            ->willReturn(sys_get_temp_dir() . '/sample/');
 
         $directoryMock->expects($this->once())
             ->method('getId')
@@ -495,14 +505,15 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $edit = $this->testModel->save($testMock, $itemUris);
 
-        $file = json_decode(file_get_contents(sys_get_temp_dir(). '/sample/content.json'));
+        $file = json_decode(file_get_contents(sys_get_temp_dir() . '/sample/content.json'));
 
         $this->assertEquals(true, $edit, __('Should edit the property value'));
         $this->assertEquals($itemUris, $file, __('The content file doesn\'t contain the right items'));
 
     }
 
-    public function testSaveNew() {
+    public function testSaveNew()
+    {
         $testMock = $this->getMockBuilder('core_kernel_classes_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getOnePropertyValue', 'editPropertyValues'))
@@ -543,7 +554,7 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $directoryMock->expects($this->exactly(2))
             ->method('getPath')
-            ->willReturn(sys_get_temp_dir(). '/sample/');
+            ->willReturn(sys_get_temp_dir() . '/sample/');
 
         $directoryMock->expects($this->once())
             ->method('getId')
@@ -557,15 +568,11 @@ class TestModelTest extends TaoPhpUnitTestRunner {
 
         $edit = $this->testModel->save($testMock, $itemUris);
 
-        $file = json_decode(file_get_contents(sys_get_temp_dir(). '/sample/content.json'));
+        $file = json_decode(file_get_contents(sys_get_temp_dir() . '/sample/content.json'));
 
 
         $this->assertEquals(true, $edit, __('Should edit the property value'));
         $this->assertEquals($itemUris, $file, __('The content file doesn\'t contain the right items'));
-
     }
-
-
-
 }
  
