@@ -19,7 +19,7 @@
  *
  */
 
-namespace oat\taoTestLinear\test\model;
+namespace oat\taoTestLinear\test\integration\model;
 
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -33,7 +33,8 @@ use oat\taoTestLinear\model\TestRunnerService;
  * @author Antoine Robin, <antoine.robin@vesperiagroup.com>
  * @package taoTestLinear
  */
-class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
+class TestRunnerServiceTest extends TaoPhpUnitTestRunner
+{
 
     /**
      * @var TestRunnerService
@@ -45,7 +46,8 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
     private $directoryMock = null;
 
 
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
         $this->service = TestRunnerService::singleton();
 
@@ -65,7 +67,8 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         $ref = new \ReflectionProperty('tao_models_classes_service_FileStorage', 'instance');
         $ref->setAccessible(true);
         $ref->setValue(null, null);
@@ -75,13 +78,13 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
         $this->service = null;
     }
 
-    public function testGetItemDataWithoutConfig() {
+    public function testGetItemDataWithoutConfig()
+    {
 
         $compilationId = "MyFirstCompilationID";
         $this->directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/withoutConfig/');
-
+            ->willReturn(dirname(__FILE__) . '/../sample/withoutConfig/');
 
 
         $this->storageMock->expects($this->once())
@@ -103,14 +106,14 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function testGetItemDataWithConfig() {
+    public function testGetItemDataWithConfig()
+    {
 
 
         $compilationId = "MySecondCompilationID";
         $this->directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/withoutConfig/');
-
+            ->willReturn(dirname(__FILE__) . '/../sample/withoutConfig/');
 
 
         $this->storageMock->expects($this->once())
@@ -132,14 +135,14 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function testGetPreviousWithoutConfig() {
+    public function testGetPreviousWithoutConfig()
+    {
 
         $compilationId = "MyCompilationID#3";
 
         $this->directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/withoutConfig/');
-
+            ->willReturn(dirname(__FILE__) . '/../sample/withoutConfig/');
 
 
         $this->storageMock->expects($this->once())
@@ -155,13 +158,13 @@ class TestRunnerServiceTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function testGetPreviousWithConfig() {
+    public function testGetPreviousWithConfig()
+    {
 
         $compilationId = "MyCompilationID#4";
         $this->directoryMock->expects($this->once())
             ->method('getPath')
-            ->willReturn(dirname(__FILE__). '/../sample/withConfig/');
-
+            ->willReturn(dirname(__FILE__) . '/../sample/withConfig/');
 
 
         $this->storageMock->expects($this->once())

@@ -19,8 +19,7 @@
  *
  */
 
-namespace oat\taoTestLinear\test\model;
-
+namespace oat\taoTestLinear\test\integration\model;
 
 
 use oat\tao\test\TaoPhpUnitTestRunner;
@@ -34,11 +33,12 @@ use oat\taoTestLinear\model\TestExecutionState;
  * @author Antoine Robin, <antoine.robin@vesperiagroup.com>
  * @package taoTestLinear
  */
-class TestExecutionStateTest extends TaoPhpUnitTestRunner {
-
+class TestExecutionStateTest extends TaoPhpUnitTestRunner
+{
     private $testRunnerService = null;
 
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
 
         $this->testRunnerService = $this->getMockBuilder('oat\taoTestLinear\model\TestRunnerService')
@@ -51,30 +51,33 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
         $ref->setValue(null, array('oat\taoTestLinear\model\TestRunnerService' => $this->testRunnerService));
     }
 
-    public function tearDown(){
+    public function tearDown()
+    {
         $ref = new \ReflectionProperty('tao_models_classes_Service', 'instances');
         $ref->setAccessible(true);
         $ref->setValue(null, array('oat\taoTestLinear\model\TestRunnerService' => null));
     }
 
 
-    public function testInitNew(){
+    public function testInitNew()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
         $this->testRunnerService->expects($this->once())
-                ->method('getItemData')
-                ->with($compilationId)
-                ->willReturn(array());
+            ->method('getItemData')
+            ->with($compilationId)
+            ->willReturn(array());
 
         $execution = TestExecutionState::initNew($testExecutionId, $compilationId);
         $this->assertInstanceOf('oat\taoTestLinear\model\TestExecutionState', $execution, __('Init New doesn\'t construct Test execution object'));
 
-        $this->assertEquals($testExecutionId.'_0', $execution->getItemServiceCallId());
+        $this->assertEquals($testExecutionId . '_0', $execution->getItemServiceCallId());
 
     }
 
-    public function testHasNext() {
+    public function testHasNext()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -94,7 +97,8 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
 
     }
 
-    public function testNext(){
+    public function testNext()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -107,13 +111,14 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
 
 
         $execution->next();
-        $this->assertEquals($testExecutionId.'_1', $execution->getItemServiceCallId());
+        $this->assertEquals($testExecutionId . '_1', $execution->getItemServiceCallId());
     }
 
     /**
      * @expectedException \common_Exception
      */
-    public function testNextException(){
+    public function testNextException()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -129,7 +134,8 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
     }
 
 
-    public function testHasPrevious(){
+    public function testHasPrevious()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -154,7 +160,8 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
         $this->assertTrue($hasPrevious, __('Should have previous'));
     }
 
-    public function testHasNotPrevious(){
+    public function testHasNotPrevious()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -177,7 +184,8 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
         $this->assertFalse($hasPrevious, __('Should not have previous'));
     }
 
-    public function testPrevious(){
+    public function testPrevious()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -202,13 +210,14 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
         $hasPrevious = $execution->hasPrevious();
         $this->assertFalse($hasPrevious, __('Should not have previous'));
 
-        $this->assertEquals($testExecutionId.'_0', $execution->getItemServiceCallId());
+        $this->assertEquals($testExecutionId . '_0', $execution->getItemServiceCallId());
     }
 
     /**
      * @expectedException \common_Exception
      */
-    public function testPreviousException(){
+    public function testPreviousException()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -228,7 +237,8 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
         $execution->previous();
     }
 
-    public function testToString(){
+    public function testToString()
+    {
         $testExecutionId = 'myTestId';
         $compilationId = 'myCompilationId';
 
@@ -239,18 +249,17 @@ class TestExecutionStateTest extends TaoPhpUnitTestRunner {
 
         $execution = TestExecutionState::initNew($testExecutionId, $compilationId);
         $string = json_encode(array(
-                'testExecutionId' => $testExecutionId,
-                'compilationId' => $compilationId,
-                'current' => 0,
-                'itemExecutions' => array(
-                                        array(
-                                            'itemIndex' => 0,
-                                            'callId' => $testExecutionId.'_0',
-                                        )
-                                    )
-            ));
+            'testExecutionId' => $testExecutionId,
+            'compilationId' => $compilationId,
+            'current' => 0,
+            'itemExecutions' => array(
+                array(
+                    'itemIndex' => 0,
+                    'callId' => $testExecutionId . '_0',
+                )
+            )
+        ));
         $this->assertEquals($string, $execution->toString());
     }
-
 }
  

@@ -19,9 +19,9 @@
  *
  */
 
-namespace oat\taoTestLinear\test\model;
+namespace oat\taoTestLinear\test\integration\model;
 
-
+include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoTestLinear\model\TestCompiler;
@@ -35,8 +35,8 @@ use oat\taoTestLinear\model\TestModel;
  * @author Antoine Robin, <antoine.robin@vesperiagroup.com>
  * @package taoTestLinear
  */
-class TestCompilerTest extends TaoPhpUnitTestRunner {
-
+class TestCompilerTest extends TaoPhpUnitTestRunner
+{
     /**
      * @var \tao_models_classes_service_FileStorage
      */
@@ -57,7 +57,8 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
      */
     private $testModel = null;
 
-    public function setUp(){
+    public function setUp()
+    {
         TaoPhpUnitTestRunner::initTest();
         $this->test = new \core_kernel_classes_Resource('http://myFancyDomain.com/myGreatResourceUriForTest');
         $this->item = new \core_kernel_classes_Resource('http://myFancyDomain.com/myGreatResourceUriForItem');
@@ -68,8 +69,8 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
         $this->testModel->save($this->test, array());
     }
 
-    public function testCompileEmpty() {
-
+    public function testCompileEmpty()
+    {
         //test without items
         $testCompiler = new TestCompiler($this->test, $this->storage);
         $waitingReport = new \common_report_Report(\common_report_Report::TYPE_ERROR, __("A Test must contain at least one item to be compiled."));
@@ -78,7 +79,8 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
         $this->assertEquals($waitingReport, $report, 'No items in sample test');
     }
 
-    public function testCompile(){
+    public function testCompile()
+    {
         //test with items
         $config = array('previous' => true);
         $items = array($this->item->getUri());
@@ -114,7 +116,7 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
 
         $tmpDir = \tao_helpers_File::createTempDir();
         $this->assertFileExists($tmpDir);
-        
+
         $directoryMock->expects($this->once())
             ->method('getPath')
             ->willReturn($tmpDir);
@@ -125,17 +127,14 @@ class TestCompilerTest extends TaoPhpUnitTestRunner {
             ->willReturn($directoryMock);
 
 
-
         $report = $testCompiler->compile();
 
-        $this->assertEquals(__('Test Compilation'), $report->getMessage(),__('Compilation should work'));
-        $this->assertFileExists($tmpDir. 'data.json', __('Compilation file not created'));
+        $this->assertEquals(__('Test Compilation'), $report->getMessage(), __('Compilation should work'));
+        $this->assertFileExists($tmpDir . 'data.json', __('Compilation file not created'));
         $compile = '{"items":{"http:\/\/myFancyDomain.com\/myGreatResourceUriForItem":"greatString"},"previous":true}';
-        $this->assertEquals($compile, file_get_contents(($tmpDir.'data.json'), __('File content error')));
-        
+        $this->assertEquals($compile, file_get_contents(($tmpDir . 'data.json'), __('File content error')));
+
         \tao_helpers_File::delTree($tmpDir);
         $this->assertFileNotExists($tmpDir);
     }
-
 }
- 
