@@ -25,7 +25,7 @@ return array(
     'label' => 'Linear Test Model',
     'description' => 'A simple linear test model',
     'license' => 'GPL-2.0',
-    'version' => '3.1.4',
+    'version' => '3.1.5',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=12.21.4',
