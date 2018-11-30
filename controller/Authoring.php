@@ -30,6 +30,7 @@ use oat\taoTestLinear\model\TestModel;
 use tao_helpers_Uri;
 use tao_helpers_Request;
 use tao_helpers_form_GenerisTreeForm;
+use common_exception_BadRequest;
 
 /**
  * Controller for actions related to the authoring of the linear test model
@@ -92,6 +93,10 @@ class Authoring extends tao_actions_CommonModule {
 
 	/**
 	 * save the related items from the checkbox tree or from the sequence box
+     *
+     * @throws \common_exception_Error
+     * @throws common_exception_BadRequest
+     *
 	 * @return void
 	 */
 	public function saveItems()
@@ -99,7 +104,7 @@ class Authoring extends tao_actions_CommonModule {
 	    $test = new \core_kernel_classes_Resource($this->getRequestParameter('uri'));
 	     
 		if(!tao_helpers_Request::isAjax()){
-			throw new \Exception("wrong request mode");
+			throw new common_exception_BadRequest('wrong request mode');
 		}
 
         $itemUris = tao_helpers_form_GenerisTreeForm::getSelectedInstancesFromPost();
