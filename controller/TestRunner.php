@@ -34,13 +34,6 @@ use oat\taoTestLinear\model\TestExecutionState;
 class TestRunner extends \tao_actions_ServiceModule {
 
     /**
-     * initialize the services
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * The test runner
      */
     public function index() {
