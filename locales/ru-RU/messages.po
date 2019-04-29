@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-04-25T01:12:45\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ru-RU\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ru-RU\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "A Test must contain at least one item to be compiled."
+msgstr "Тест должен содержать по крайней мере один элемент для компиляции."
+
+msgid "Add to the test"
+msgstr "Добавить в тест"
+
+msgid "Allow test-taker to go back in test"
+msgstr "Разрешить тестируемому вернуться в тест"
+
+msgid "Available Items"
+msgstr "Доступные элементы"
+
+msgid "Drag and drop the items to order them"
+msgstr "Перетащите элементы, чтобы упорядочить их"
+
+msgid "Items sequence"
+msgstr "Последовательность элементов"
+
+msgid "Next"
+msgstr "Следующий"
+
+msgid "Previous"
+msgstr "Предыдущий"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Select the items composing the test."
+msgstr "Выберите элементы, составляющие тест."
+
+msgid "Sequence saved successfully"
+msgstr "Последовательность сохранена успешно"
+
+msgid "Submit your responses and head for the next item."
+msgstr "Отправьте свои ответы и переходите к следующему пункту."
+
+msgid "Submit your responses and head for the previous item."
+msgstr "Отправьте свои ответы и переходите к предыдущему пункту."
+
+msgid "Test Compilation"
+msgstr "Компиляция теста"
+
+msgid "Test configuration"
+msgstr "Конфигурация теста"
+
+msgid "Unknown test directory"
+msgstr "Неизвестный тестовый каталог"
+

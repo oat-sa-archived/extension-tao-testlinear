@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-04-25T01:04:44\n"
+"PO-Revision-Date: 2019-04-25T01:14:29\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-NL\n"
+"Language: nb-NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-NL\n"
+"targetLanguage: nb-NO\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -14,50 +14,50 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "A Test must contain at least one item to be compiled."
-msgstr "Een examen moet ten minste één item bevatten om te worden gecompileerd."
+msgstr ""
 
 msgid "Add to the test"
-msgstr "Voeg toe aan examen"
+msgstr ""
 
 msgid "Allow test-taker to go back in test"
-msgstr "Sta kandidaten toe om terug te gaan in het examen"
+msgstr ""
 
 msgid "Available Items"
-msgstr "Beschikbare items"
+msgstr ""
 
 msgid "Drag and drop the items to order them"
-msgstr "Sleep de items op de juiste volgorde"
+msgstr ""
 
 msgid "Items sequence"
-msgstr "Item volgorde"
+msgstr ""
 
 msgid "Next"
-msgstr "Volgende"
+msgstr ""
 
 msgid "Previous"
-msgstr "Vorige"
+msgstr ""
 
 msgid "Save"
-msgstr "Opslaan"
+msgstr ""
 
 msgid "Select the items composing the test."
-msgstr "Selecteer de items die het examen moet bevatten."
+msgstr ""
 
 msgid "Sequence saved successfully"
-msgstr "Volgorde succesvol opgeslagen"
+msgstr ""
 
 msgid "Submit your responses and head for the next item."
-msgstr "Verzend uw antwoorden en ga verder naar het volgende item."
+msgstr ""
 
 msgid "Submit your responses and head for the previous item."
-msgstr "Verzend uw antwoorden en ga verder naar het vorige item."
+msgstr ""
 
 msgid "Test Compilation"
-msgstr "Examen compilatie"
+msgstr ""
 
 msgid "Test configuration"
-msgstr "Examenconfiguratie"
+msgstr ""
 
 msgid "Unknown test directory"
-msgstr "Onbekende examen directory"
+msgstr ""
 

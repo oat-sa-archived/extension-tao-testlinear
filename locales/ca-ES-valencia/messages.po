@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-04-25T01:04:44\n"
+"PO-Revision-Date: 2019-04-25T01:10:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-NL\n"
+"Language: ca-ES-valencia\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-NL\n"
+"targetLanguage: ca-ES-valencia\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -14,50 +14,50 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "A Test must contain at least one item to be compiled."
-msgstr "Een examen moet ten minste één item bevatten om te worden gecompileerd."
+msgstr "Una prova ha de contindre com a mínim un element per a compilar-lo."
 
 msgid "Add to the test"
-msgstr "Voeg toe aan examen"
+msgstr "Afig a la prova"
 
 msgid "Allow test-taker to go back in test"
-msgstr "Sta kandidaten toe om terug te gaan in het examen"
+msgstr "Permet al participant anar arrere en la prova"
 
 msgid "Available Items"
-msgstr "Beschikbare items"
+msgstr "Elements disponibles"
 
 msgid "Drag and drop the items to order them"
-msgstr "Sleep de items op de juiste volgorde"
+msgstr "Arrossegueu i deixeu anar elements per a ordenar-los"
 
 msgid "Items sequence"
-msgstr "Item volgorde"
+msgstr "Seqüència d'elements"
 
 msgid "Next"
-msgstr "Volgende"
+msgstr "Següent"
 
 msgid "Previous"
-msgstr "Vorige"
+msgstr "Anterior"
 
 msgid "Save"
-msgstr "Opslaan"
+msgstr "Guarda"
 
 msgid "Select the items composing the test."
-msgstr "Selecteer de items die het examen moet bevatten."
+msgstr "Seleccioneu els elements que componen la prova."
 
 msgid "Sequence saved successfully"
-msgstr "Volgorde succesvol opgeslagen"
+msgstr "La seqüència s'ha guardat correctament."
 
 msgid "Submit your responses and head for the next item."
-msgstr "Verzend uw antwoorden en ga verder naar het volgende item."
+msgstr "Envia les respostes i vés a l'element següent"
 
 msgid "Submit your responses and head for the previous item."
-msgstr "Verzend uw antwoorden en ga verder naar het vorige item."
+msgstr "Envia les respostes i vés a l'element anterior"
 
 msgid "Test Compilation"
-msgstr "Examen compilatie"
+msgstr "Compilació de la prova"
 
 msgid "Test configuration"
-msgstr "Examenconfiguratie"
+msgstr "Configuració de la prova"
 
 msgid "Unknown test directory"
-msgstr "Onbekende examen directory"
+msgstr "Directori de prova desconegut"
 
