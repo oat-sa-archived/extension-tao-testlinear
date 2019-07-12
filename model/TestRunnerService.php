@@ -22,7 +22,7 @@
 namespace oat\taoTestLinear\model;
 
 
-use core_kernel_classes_Class;
+use oat\tao\model\OntologyClassService;
 
 /**
  * TestRunner service to get data of the test
@@ -31,7 +31,7 @@ use core_kernel_classes_Class;
  * @author Antoine Robin, <antoine.robin@vesperiagroup.com>
  * @package taoTestLinear
  */
-class TestRunnerService extends \tao_models_classes_ClassService{
+class TestRunnerService extends OntologyClassService {
 
     //volatile
     private $itemDataCache = null;
@@ -83,6 +83,6 @@ class TestRunnerService extends \tao_models_classes_ClassService{
      */
     public function getRootClass()
     {
-        return new core_kernel_classes_Class(CLASS_SIMPLE_DELIVERYCONTENT);
+        return $this->getClass(CLASS_SIMPLE_DELIVERYCONTENT);
     }
 }
