@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.4.0-sprint113\n"
+"PO-Revision-Date: 2019-10-16T17:55:19\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: lt-LT\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: lt-LT\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "A Test must contain at least one item to be compiled."
+msgstr ""
+
+msgid "Add to the test"
+msgstr "Pridėti į testą"
+
+msgid "Allow test-taker to go back in test"
+msgstr "Leisti testo laikytojams grįžti į testą"
+
+msgid "Available Items"
+msgstr "Galimi klausimai"
+
+msgid "Drag and drop the items to order them"
+msgstr ""
+
+msgid "Items sequence"
+msgstr ""
+
+msgid "Next"
+msgstr "Tęsti"
+
+msgid "Previous"
+msgstr "Grįžti"
+
+msgid "Save"
+msgstr "Išsaugoti"
+
+msgid "Select the items composing the test."
+msgstr ""
+
+msgid "Sequence saved successfully"
+msgstr ""
+
+msgid "Submit your responses and head for the next item."
+msgstr "Pateikite savo atsakymus ir pereikite į kitą klausimą."
+
+msgid "Submit your responses and head for the previous item."
+msgstr "Pateikite savo atsakymus ir grįžkite prie ankstesnio klausimo."
+
+msgid "Test Compilation"
+msgstr ""
+
+msgid "Test configuration"
+msgstr "Testo konfigūracija"
+
+msgid "Unknown test directory"
+msgstr "Nežinoma testo direktorija"
+
